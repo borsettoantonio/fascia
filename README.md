@@ -1,8 +1,7 @@
 # fascia
 
-19.03.2024
-Ho cambiato il nome del programma da cerchio a fascia
-
+22.03.2024
+Ho aggiunto il pop up menu per accendere / spegnere i punti.
 
 Comando di compilazione:
 flutter build apk --split-per-abi

@@ -64,6 +64,7 @@ class SectorsPainter extends CustomPainter {
     const double mezzoSpazio = 3;
     final double dx = mainCircleDiameter / 2 + mezzoSpazio;
     final double dy = mainCircleDiameter + 3;
+    var myCanvas = TouchyCanvas(context, canvas);
 
     // testa + corpo
     var s = 0;
@@ -71,6 +72,7 @@ class SectorsPainter extends CustomPainter {
       disegnaCorone(
         context,
         canvas,
+        myCanvas,
         mainCircleDiameter,
         xPos - dx,
         yPos,
@@ -82,6 +84,7 @@ class SectorsPainter extends CustomPainter {
       disegnaCorone(
         context,
         canvas,
+        myCanvas,
         mainCircleDiameter,
         xPos + dx,
         yPos,
@@ -101,6 +104,7 @@ class SectorsPainter extends CustomPainter {
       disegnaCorone(
         context,
         canvas,
+        myCanvas,
         mainCircleDiameter,
         xxPos - dx - dxx,
         yPos,
@@ -112,6 +116,7 @@ class SectorsPainter extends CustomPainter {
       disegnaCorone(
         context,
         canvas,
+        myCanvas,
         mainCircleDiameter,
         xxPos + dx + dxx,
         yPos,
@@ -138,6 +143,7 @@ class SectorsPainter extends CustomPainter {
       disegnaCorone(
         context,
         canvas,
+        myCanvas,
         mainCircleDiameter,
         xxPos - dx - dxx + 8,
         yPos,
@@ -149,6 +155,7 @@ class SectorsPainter extends CustomPainter {
       disegnaCorone(
         context,
         canvas,
+        myCanvas,
         mainCircleDiameter,
         xxPos + dx + dxx - 8,
         yPos,
@@ -170,6 +177,7 @@ class SectorsPainter extends CustomPainter {
   void disegnaCorone(
     BuildContext context,
     Canvas canvas,
+    TouchyCanvas myCanvas,
     double mainCircleDiameter,
     double xPos,
     double yPos,
@@ -204,8 +212,6 @@ class SectorsPainter extends CustomPainter {
       'Ambra',
     ];
 
-    var myCanvas = TouchyCanvas(context, canvas);
-
     final Paint paint = Paint()
       ..isAntiAlias = true
       ..strokeWidth = 3.0
@@ -227,9 +233,6 @@ class SectorsPainter extends CustomPainter {
         sweepAngle,
         useCenter,
         paint..color = attiviExt[i] ? sectorColors[i] : Colors.white,
-        onTapDown: (tapDetail) {
-          onTap(colorsName[i]);
-        },
       );
       startAngle = startAngle + sweepAngle + separatore;
     }
@@ -252,9 +255,6 @@ class SectorsPainter extends CustomPainter {
           useCenter,
           paint
             ..color = attiviInt[i - 6][m - 1] ? sectorColors[i] : Colors.white,
-          onTapDown: (tapDetail) {
-            onTap(colorsName[i]);
-          },
         );
         startAngle = startAngle + sweepAngle + separatore;
       }
@@ -282,7 +282,13 @@ class SectorsPainter extends CustomPainter {
     Offset circleOffset =
         Offset(mainCircleDiameter / 2 + xPos, mainCircleDiameter / 2 + yPos);
     myCanvas.drawCircle(
-        circleOffset, innerCircleRaw, paint..color = Colors.white);
+      circleOffset,
+      innerCircleRaw,
+      paint..color = Colors.white,
+      onTapUp: (tapDetail) {
+        onTap(tapDetail);
+      },
+    );
 
     // testo nel cerchio interno
     double fSize;
