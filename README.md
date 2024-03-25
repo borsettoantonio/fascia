@@ -1,7 +1,7 @@
 # fascia
 
-22.03.2024
-Ho aggiunto il pop up menu per accendere / spegnere i punti.
+25.03.2024
+Ho migliorarto il pop up menu.
 
 Comando di compilazione:
 flutter build apk --split-per-abi

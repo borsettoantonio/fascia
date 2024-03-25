@@ -84,260 +84,58 @@ class _MyHomePageState extends State<MyHomePage> {
         MediaQuery.of(context).size.width - globalPosition.dx,
         MediaQuery.of(context).size.height - globalPosition.dy,
       ),
-      items: [
-        PopupMenuItem<String>(
-          padding: EdgeInsets.only(right: 10.0, left: 10.0),
-          height: 30,
-          value: 'Doge',
-          child: Container(
-            width: double.infinity,
-            height: 25,
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            padding: EdgeInsets.only(left: 10.0, right: 10.0),
-            child: const Text('primo'),
-          ),
-        ),
-        PopupMenuItem<String>(
-          height: 30,
-          value: 'Doge',
-          child: Container(
-            width: double.infinity,
-            height: 25,
-            decoration: BoxDecoration(
-              color: Colors.greenAccent.shade700,
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            padding: EdgeInsets.only(left: 10.0, right: 10.0),
-            child: const Text('secondo'),
-          ),
-        ),
-        PopupMenuItem<String>(
-          height: 30,
-          value: 'Doge',
-          child: Container(
-            width: double.infinity,
-            height: 25,
-            decoration: BoxDecoration(
-              //color: Colors.greenAccent.shade700,
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            padding: EdgeInsets.only(left: 10.0, right: 10.0),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('terzo'),
-                  Container(
-                    width: 20.0,
-                    height: 20.0,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.blue,
-                    ),
-                  )
-                ]),
-          ),
-        ),
-        PopupMenuItem<String>(
-          padding: EdgeInsets.only(right: 10.0, left: 10.0),
-          height: 30,
-          value: 'Doge',
-          child: Container(
-            width: double.infinity,
-            height: 25,
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            padding: EdgeInsets.only(left: 10.0, right: 10.0),
-            child: const Text('primo'),
-          ),
-        ),
-        PopupMenuItem<String>(
-          padding: EdgeInsets.only(right: 10.0, left: 10.0),
-          height: 30,
-          value: 'Doge',
-          child: Container(
-            width: double.infinity,
-            height: 25,
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            padding: EdgeInsets.only(left: 10.0, right: 10.0),
-            child: const Text('primo'),
-          ),
-        ),
-        PopupMenuItem<String>(
-          padding: EdgeInsets.only(right: 10.0, left: 10.0),
-          height: 30,
-          value: 'Doge',
-          child: Container(
-            width: double.infinity,
-            height: 25,
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            padding: EdgeInsets.only(left: 10.0, right: 10.0),
-            child: const Text('primo'),
-          ),
-        ),
-        PopupMenuItem<String>(
-          padding: EdgeInsets.only(right: 10.0, left: 10.0),
-          height: 30,
-          value: 'Doge',
-          child: Container(
-            width: double.infinity,
-            height: 25,
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            padding: EdgeInsets.only(left: 10.0, right: 10.0),
-            child: const Text('primo'),
-          ),
-        ),
-        PopupMenuItem<String>(
-          padding: EdgeInsets.only(right: 10.0, left: 10.0),
-          height: 30,
-          value: 'Doge',
-          child: Container(
-            width: double.infinity,
-            height: 25,
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            padding: EdgeInsets.only(left: 10.0, right: 10.0),
-            child: const Text('primo'),
-          ),
-        ),
-        PopupMenuItem<String>(
-          padding: EdgeInsets.only(right: 10.0, left: 10.0),
-          height: 30,
-          value: 'Doge',
-          child: Container(
-            width: double.infinity,
-            height: 25,
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            padding: EdgeInsets.only(left: 10.0, right: 10.0),
-            child: const Text('primo'),
-          ),
-        ),
-        PopupMenuItem<String>(
-          padding: EdgeInsets.only(right: 10.0, left: 10.0),
-          height: 30,
-          value: 'Doge',
-          child: Container(
-            width: double.infinity,
-            height: 25,
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            padding: EdgeInsets.only(left: 10.0, right: 10.0),
-            child: const Text('primo'),
-          ),
-        ),
-        PopupMenuItem<String>(
-          padding: EdgeInsets.only(right: 10.0, left: 10.0),
-          height: 30,
-          value: 'Doge',
-          child: Container(
-            width: double.infinity,
-            height: 25,
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            padding: EdgeInsets.only(left: 10.0, right: 10.0),
-            child: const Text('primo'),
-          ),
-        ),
-        PopupMenuItem<String>(
-          padding: EdgeInsets.only(right: 10.0, left: 10.0),
-          height: 30,
-          value: 'Doge',
-          child: Container(
-            width: double.infinity,
-            height: 25,
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            padding: EdgeInsets.only(left: 10.0, right: 10.0),
-            child: const Text('primo'),
-          ),
-        ),
-        PopupMenuItem<String>(
-          padding: EdgeInsets.only(right: 10.0, left: 10.0),
-          height: 30,
-          value: 'Doge',
-          child: Container(
-            width: double.infinity,
-            height: 25,
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            padding: EdgeInsets.only(left: 10.0, right: 10.0),
-            child: const Text('primo'),
-          ),
-        ),
-        PopupMenuItem<String>(
-          padding: EdgeInsets.only(right: 10.0, left: 10.0),
-          height: 30,
-          value: 'Doge',
-          child: Container(
-            width: double.infinity,
-            height: 25,
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            padding: EdgeInsets.only(left: 10.0, right: 10.0),
-            child: const Text('primo'),
-          ),
-        ),
-        PopupMenuItem<String>(
-          padding: EdgeInsets.only(right: 10.0, left: 10.0),
-          height: 30,
-          value: 'Doge',
-          child: Container(
-            width: double.infinity,
-            height: 25,
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            padding: EdgeInsets.only(left: 10.0, right: 10.0),
-            child: const Text('primo'),
-          ),
-        ),
-        PopupMenuItem<String>(
-          padding: EdgeInsets.only(right: 10.0, left: 10.0),
-          height: 30,
-          value: 'Doge',
-          child: Container(
-            width: double.infinity,
-            height: 25,
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            padding: EdgeInsets.only(left: 10.0, right: 10.0),
-            child: const Text('primo'),
-          ),
-        ),
+      items: <PopupMenuItem<String>>[
+        creaElemento('ultimo', Colors.redAccent, false),
+        creaElemento('ultimo', Colors.redAccent, false),
+        creaElemento('ultimo', Colors.redAccent, false),
+        creaElemento('ultimo', Colors.redAccent, false),
+        creaElemento('ultimo', Colors.redAccent, false),
+        creaElemento('ultimo', Colors.redAccent, false),
+        creaElemento('ultimo', Colors.redAccent, false),
+        creaElemento('ultimo', Colors.redAccent, false),
+        creaElemento('ultimo', Colors.redAccent, false),
+        creaElemento('ultimo', Colors.redAccent, false),
+        creaElemento('ultimo', Colors.redAccent, false),
+        creaElemento('ultimo', Colors.redAccent, false),
+        creaElemento('ultimo', Colors.redAccent, false),
+        creaElemento('ultimo', Colors.redAccent, false),
+        creaElemento('ultimo', Colors.redAccent, false),
+        creaElemento('ultimo', Colors.redAccent, false),
+        creaElemento('ultimo', Colors.redAccent, false),
+        creaElemento('ultimo', Colors.redAccent, false),
       ],
       useRootNavigator: true,
       elevation: 8.0,
+    );
+  }
+
+  PopupMenuItem<String> creaElemento(String testo, Color colore, bool settato) {
+    return PopupMenuItem<String>(
+      padding: const EdgeInsets.only(right: 10.0, left: 10.0),
+      height: 30,
+      value: 'Doge',
+      child: Container(
+        width: double.infinity,
+        height: 25,
+        decoration: BoxDecoration(
+          color: settato ? colore : null,
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+        child: settato
+            ? Text(testo)
+            : Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                const Text('terzo'),
+                Container(
+                  width: 20.0,
+                  height: 20.0,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: colore,
+                  ),
+                )
+              ]),
+      ),
     );
   }
 }
