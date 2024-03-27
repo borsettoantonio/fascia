@@ -1,63 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:touchable/touchable.dart';
 import "dart:math" show pi;
+import './point_provider.dart';
 
 class SectorsPainter extends CustomPainter {
   final BuildContext context;
   final Function onTap;
-  SectorsPainter({required this.context, required this.onTap});
+  late List<String> segName;
+  late Paziente paziente;
+  late List<List<int>> subPoint;
+  late List<Color> sectorColors;
+
+  SectorsPainter({required this.context, required this.onTap}) {
+    paziente = Provider.of<Paziente>(context, listen: true);
+    segName = paziente.getSegmentName();
+    subPoint = paziente.getSubPoint();
+    sectorColors = paziente.sectorColors;
+  }
 
   @override
   void paint(Canvas canvas, Size size) {
-    //final double mainCircleDiameter = size.width;
-    //final double mainCircleDiameter = size.height / 12;
-
-    List<String> segName = [
-      'CP1',
-      'CP2',
-      'CP3',
-      'CL',
-      'TH',
-      'LU',
-      'PV',
-      'SC',
-      'HU',
-      'CU',
-      'CA',
-      'DI',
-      'CX',
-      'GE',
-      'TA',
-      'PE',
-    ];
-
-    List<List<int>> subPoint = [
-      [1, 2, 3, 1], // RE LA , RE ME, AN ME, AN LA  per segmento 'CP1',
-      [1, 2, 3, 1],
-      [1, 2, 3, 1],
-      [1, 2, 3, 1],
-      [1, 2, 3, 1],
-      [1, 2, 3, 1],
-      [1, 2, 3, 1],
-      [1, 2, 3, 1],
-      [1, 2, 3, 1],
-      [1, 2, 3, 1],
-      [1, 2, 3, 1],
-      [1, 2, 3, 1],
-      [1, 2, 3, 1],
-      [1, 2, 3, 1],
-      [2, 2, 2, 2],
-      [1, 1, 1, 1],
-    ];
-
-    List<bool> attiviExt = [true, false, false, true, true, true];
-    List<List<bool>> attiviInt = [
-      [false, true, false],
-      [false, true, false],
-      [true, true, true],
-      [true, true, true],
-    ];
-
     final double mainCircleDiameter = size.width / 7;
     double xPos = size.width / 2 - mainCircleDiameter / 2;
     double yPos = 0;
@@ -67,7 +30,8 @@ class SectorsPainter extends CustomPainter {
     var myCanvas = TouchyCanvas(context, canvas);
 
     // testa + corpo
-    var s = 0;
+    var s = 0; // rappresenta la metà dell'indice di segmento
+    var j = 0; // indice di segmento
     for (int i = 0; i < 7; i++) {
       disegnaCorone(
         context,
@@ -78,8 +42,10 @@ class SectorsPainter extends CustomPainter {
         yPos,
         segName[s],
         subPoint[s],
-        attiviExt,
-        attiviInt,
+        paziente.segmenti[j].attiviExt,
+        paziente.segmenti[j].attiviInt,
+        paziente.segmenti[j++],
+        sectorColors,
       );
       disegnaCorone(
         context,
@@ -90,8 +56,10 @@ class SectorsPainter extends CustomPainter {
         yPos,
         segName[s],
         subPoint[s++],
-        attiviExt,
-        attiviInt,
+        paziente.segmenti[j].attiviExt,
+        paziente.segmenti[j].attiviInt,
+        paziente.segmenti[j++],
+        sectorColors,
       );
       yPos += dy;
     }
@@ -110,8 +78,10 @@ class SectorsPainter extends CustomPainter {
         yPos,
         segName[s],
         subPoint[s],
-        attiviExt,
-        attiviInt,
+        paziente.segmenti[j].attiviExt,
+        paziente.segmenti[j].attiviInt,
+        paziente.segmenti[j++],
+        sectorColors,
       );
       disegnaCorone(
         context,
@@ -122,8 +92,10 @@ class SectorsPainter extends CustomPainter {
         yPos,
         segName[s],
         subPoint[s++],
-        attiviExt,
-        attiviInt,
+        paziente.segmenti[j].attiviExt,
+        paziente.segmenti[j].attiviInt,
+        paziente.segmenti[j++],
+        sectorColors,
       );
 
       if (i == 0) {
@@ -149,8 +121,10 @@ class SectorsPainter extends CustomPainter {
         yPos,
         segName[s],
         subPoint[s],
-        attiviExt,
-        attiviInt,
+        paziente.segmenti[j].attiviExt,
+        paziente.segmenti[j].attiviInt,
+        paziente.segmenti[j++],
+        sectorColors,
       );
       disegnaCorone(
         context,
@@ -161,8 +135,10 @@ class SectorsPainter extends CustomPainter {
         yPos,
         segName[s],
         subPoint[s++],
-        attiviExt,
-        attiviInt,
+        paziente.segmenti[j].attiviExt,
+        paziente.segmenti[j].attiviInt,
+        paziente.segmenti[j++],
+        sectorColors,
       );
       yPos += dy;
       dxx += 12;
@@ -185,33 +161,9 @@ class SectorsPainter extends CustomPainter {
     List<int> subPoint,
     List<bool> attiviExt,
     List<List<bool>> attiviInt,
+    Segmento seg,
+    List<Color> sectorColors,
   ) {
-    List<Color> sectorColors = [
-      Colors.redAccent,
-      Colors.orange,
-      Colors.yellow,
-      Colors.green,
-      Colors.teal,
-      Colors.blue,
-      Colors.indigo,
-      Colors.purple,
-      Colors.pink,
-      Colors.amber
-    ];
-
-    List<String> colorsName = [
-      'Rosso',
-      'Arancio',
-      'Giallo',
-      'Verde',
-      'Teal',
-      'Blu',
-      'Viola',
-      'Purple',
-      'Pink',
-      'Ambra',
-    ];
-
     final Paint paint = Paint()
       ..isAntiAlias = true
       ..strokeWidth = 3.0
@@ -219,6 +171,8 @@ class SectorsPainter extends CustomPainter {
 
     final arcsRect =
         Rect.fromLTWH(xPos, yPos, mainCircleDiameter, mainCircleDiameter);
+    seg.posizione =
+        Offset(xPos + mainCircleDiameter / 2, yPos + mainCircleDiameter / 2);
     const useCenter = true;
 
     const double separatore = 0.0349066;
@@ -233,6 +187,9 @@ class SectorsPainter extends CustomPainter {
         sweepAngle,
         useCenter,
         paint..color = attiviExt[i] ? sectorColors[i] : Colors.white,
+        onTapUp: (tapDetail) {
+          onTap(tapDetail);
+        },
       );
       startAngle = startAngle + sweepAngle + separatore;
     }
@@ -255,6 +212,9 @@ class SectorsPainter extends CustomPainter {
           useCenter,
           paint
             ..color = attiviInt[i - 6][m - 1] ? sectorColors[i] : Colors.white,
+          onTapDown: (tapDetail) {
+            onTap(tapDetail);
+          },
         );
         startAngle = startAngle + sweepAngle + separatore;
       }
@@ -279,13 +239,14 @@ class SectorsPainter extends CustomPainter {
 
     // cerchio bianco
     final double innerCircleRaw = mainCircleDiameter / 6;
+    //print('diametro cerchio bianco $innerCircleRaw');
     Offset circleOffset =
         Offset(mainCircleDiameter / 2 + xPos, mainCircleDiameter / 2 + yPos);
     myCanvas.drawCircle(
       circleOffset,
       innerCircleRaw,
       paint..color = Colors.white,
-      onTapUp: (tapDetail) {
+      onTapDown: (tapDetail) {
         onTap(tapDetail);
       },
     );

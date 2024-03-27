@@ -1,7 +1,7 @@
 # fascia
 
-25.03.2024
-Ho migliorarto il pop up menu.
+27.03.2024
+Ho concluso (quasi) la parte grafica.
 
 Comando di compilazione:
 flutter build apk --split-per-abi
