@@ -1,7 +1,7 @@
 # fascia
 
-27.03.2024
-Ho concluso (quasi) la parte grafica.
+28.03.2024
+Ho precisato punti e sottopunti.
 
 Comando di compilazione:
 flutter build apk --split-per-abi
