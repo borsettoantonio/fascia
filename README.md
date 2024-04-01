@@ -1,7 +1,7 @@
 # fascia
 
-28.03.2024
-Ho precisato punti e sottopunti.
+01.04.2024
+Ho ridimensionato la finestra per Windows.
 
 Comando di compilazione:
 flutter build apk --split-per-abi

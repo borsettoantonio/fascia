@@ -4,7 +4,16 @@ import 'package:touchable/touchable.dart';
 import 'package:provider/provider.dart';
 import './point_provider.dart';
 
+import 'package:flutter/foundation.dart';
+import 'dart:io';
+import 'package:desktop_window/desktop_window.dart';
+
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  if (!kIsWeb || Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    DesktopWindow.setWindowSize(const Size(500, 900));
+  }
   runApp(const MyApp());
 }
 
