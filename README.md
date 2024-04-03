@@ -1,7 +1,7 @@
 # fascia
 
-01.04.2024
-Ho ridimensionato la finestra per Windows.
+03.04.2024
+Ho inserito la schermata di autenticazione.
 
 Comando di compilazione:
 flutter build apk --split-per-abi
