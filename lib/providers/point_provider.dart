@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Paziente with ChangeNotifier {
+class PazienteCorrente with ChangeNotifier {
   static final List<String> _segName = [
     'CP1',
     'CP2',
@@ -68,7 +68,7 @@ class Paziente with ChangeNotifier {
   List<Segmento> segmenti = [];
 
   // costruttore
-  Paziente() {
+  PazienteCorrente() {
     for (int i = 0; i < 32; i++) {
       segmenti.add(Segmento());
     }

@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:touchable/touchable.dart';
 import "dart:math" show pi;
-import './point_provider.dart';
+import '../providers/point_provider.dart';
 
 class SectorsPainter extends CustomPainter {
   final BuildContext context;
   final Function onTap;
   late List<String> segName;
-  late Paziente paziente;
+  late PazienteCorrente paziente;
   late List<List<int>> subPoint;
   late List<Color> sectorColors;
 
   SectorsPainter({required this.context, required this.onTap}) {
-    paziente = Provider.of<Paziente>(context, listen: true);
+    paziente = Provider.of<PazienteCorrente>(context, listen: true);
     segName = paziente.getSegmentName();
     subPoint = paziente.getSubPoint();
     sectorColors = paziente.sectorColors;

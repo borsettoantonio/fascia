@@ -1,7 +1,7 @@
 # fascia
 
-03.04.2024
-Ho inserito la schermata di autenticazione.
+06.04.2024
+Ho inserito la cselta del paziente.
 
 Comando di compilazione:
 flutter build apk --split-per-abi

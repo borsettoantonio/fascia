@@ -3,7 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../point_provider.dart';
+import '../providers/point_provider.dart';
+import './cerca_paziente_screen.dart';
 //import '../models/http_exception.dart';
 
 class AuthScreen extends StatelessWidget {
@@ -130,6 +131,8 @@ class _AuthCardState extends State<AuthCard> {
     _formKey.currentState!.save();
     if (_authData['password'] != '12345') {
       _showErrorDialog('Password errata!');
+    } else {
+      Navigator.of(context).pushReplacementNamed(CercaPazienteScreen.routeName);
     }
   }
 

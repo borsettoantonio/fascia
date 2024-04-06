@@ -1,65 +1,61 @@
 import 'package:flutter/material.dart';
-import '../sectorPainter.dart';
+import '../screens/sectorPainter.dart';
 import 'package:touchable/touchable.dart';
 import 'package:provider/provider.dart';
-import '../point_provider.dart';
+import '../providers/point_provider.dart';
 
 class PuntiScreen extends StatefulWidget {
-  const PuntiScreen({super.key, required this.title});
+  const PuntiScreen({super.key});
 
-  final String title;
+  static const routeName = '/puntiScreen';
+  final String title = 'Fascia';
 
   @override
   State<PuntiScreen> createState() => _PuntiScreenState();
 }
 
 class _PuntiScreenState extends State<PuntiScreen> {
-  static const routeName = '/puntiScreen';
-
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<Paziente>(
-      create: (_) => Paziente(),
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(widget.title),
-        ),
-        body: InteractiveViewer(
-          boundaryMargin: const EdgeInsets.all(200.0),
-          minScale: 0.01,
-          maxScale: 2.6,
-          //clipBehavior: Clip.none,
-          child: SafeArea(
-            child: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-                return Container(
-                  color: Colors.black12,
-                  height: constraints.maxHeight,
-                  width: constraints.maxWidth,
-                  alignment: Alignment.center,
-                  child: CanvasTouchDetector(
-                      gesturesToOverride: const [GestureType.onTapDown],
-                      builder: (context) {
-                        return CustomPaint(
-                          painter: SectorsPainter(
-                              context: context,
-                              onTap: (detail) async {
-                                Provider.of<Paziente>(context, listen: false)
-                                    .setPunto(await _showPopupMenu(
-                                  context,
-                                  (detail as TapDownDetails).localPosition,
-                                  constraints.maxWidth / 14,
-                                ));
-                                //print(x);
-                              }),
-                          size:
-                              Size(constraints.maxWidth, constraints.maxHeight),
-                        );
-                      }),
-                );
-              },
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: InteractiveViewer(
+        boundaryMargin: const EdgeInsets.all(200.0),
+        minScale: 0.01,
+        maxScale: 2.6,
+        //clipBehavior: Clip.none,
+        child: SafeArea(
+          child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              return Container(
+                color: Colors.black12,
+                height: constraints.maxHeight,
+                width: constraints.maxWidth,
+                alignment: Alignment.center,
+                child: CanvasTouchDetector(
+                    gesturesToOverride: const [GestureType.onTapDown],
+                    builder: (context) {
+                      return CustomPaint(
+                        painter: SectorsPainter(
+                            context: context,
+                            onTap: (detail) async {
+                              Provider.of<PazienteCorrente>(context,
+                                      listen: false)
+                                  .setPunto(await _showPopupMenu(
+                                context,
+                                (detail as TapDownDetails).localPosition,
+                                constraints.maxWidth / 14,
+                              ));
+                              //print(x);
+                            }),
+                        size: Size(constraints.maxWidth, constraints.maxHeight),
+                      );
+                    }),
+              );
+            },
           ),
         ),
       ),
@@ -72,7 +68,7 @@ class _PuntiScreenState extends State<PuntiScreen> {
     Offset localPosition,
     double diametro,
   ) async {
-    var paziente = Provider.of<Paziente>(context, listen: false);
+    var paziente = Provider.of<PazienteCorrente>(context, listen: false);
     int seg = paziente.getSegment(localPosition, diametro);
 
     return await showMenu(
@@ -139,7 +135,7 @@ class _PuntiScreenState extends State<PuntiScreen> {
 
   List<PopupMenuItem<List<int>>> elementiMenu(
     BuildContext context,
-    Paziente paziente,
+    PazienteCorrente paziente,
     int seg,
   ) {
     String nomePunto = '';
