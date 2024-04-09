@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './paziente_provider.dart';
 
 class PazienteCorrente with ChangeNotifier {
   static final List<String> _segName = [
@@ -68,9 +69,36 @@ class PazienteCorrente with ChangeNotifier {
   List<Segmento> segmenti = [];
 
   // costruttore
-  PazienteCorrente() {
+  PazienteCorrente([Paziente? paz]) {
     for (int i = 0; i < 32; i++) {
       segmenti.add(Segmento());
+    }
+  }
+
+  void setPazienteCorrente(Paziente paz) {
+    int k = 0; // indice nei bytes del blob
+    for (int s = 0; s < 2; s++) {
+      // elaboro i 32 segmenti
+      int mask = 1;
+      for (int j = 0; j < 6; j++) {
+        //elaboro i 6 punti esterni
+        segmenti[s].attiviExt[j] = (paz.punti[k] & mask) == 0 ? false : true;
+        mask <<= 1;
+      }
+      for (int j = 0; j < 4; j++) {
+        //elaboro i 4 punti interni
+        for (int e = 0; e < 3; e++) {
+          //elaboro i max 3 sottopunti punti interni
+          segmenti[s].attiviInt[j][e] =
+              (paz.punti[k] & mask) == 0 ? false : true;
+          mask <<= 1;
+          if (mask == 256) {
+            mask = 1;
+            k++;
+          }
+        }
+      }
+      k++;
     }
   }
 
@@ -131,5 +159,5 @@ class Segmento {
     [false, false, false],
     [false, false, false],
   ];
-  Offset posizione = Offset(0.0, 0.0); // centro del cerchio
+  Offset posizione = const Offset(0.0, 0.0); // centro del cerchio
 }

@@ -1,7 +1,7 @@
 # fascia
 
-06.04.2024
-Ho inserito la cselta del paziente.
+09.04.2024
+Ho iniziato a usare sqflite.
 
 Comando di compilazione:
 flutter build apk --split-per-abi

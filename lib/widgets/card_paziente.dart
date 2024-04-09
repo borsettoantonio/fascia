@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../providers/paziente_provider.dart';
+import '../providers/point_provider.dart';
 import './punti_screen.dart';
 
 class CardPaziente extends StatelessWidget {
@@ -24,9 +26,10 @@ class CardPaziente extends StatelessWidget {
           title: Text('${lista[position].cognome} ${lista[position].nome}'),
           subtitle:
               Text('${lista[position].citta} tel: ${lista[position].telefono}'),
-          onTap: () => {
-            Navigator.of(context)
-                .pushNamed(PuntiScreen.routeName, arguments: lista[position].id)
+          onTap: () {
+            Provider.of<PazienteCorrente>(context, listen: false)
+                .setPazienteCorrente(lista[position]);
+            Navigator.of(context).pushNamed(PuntiScreen.routeName);
           },
         ));
   }
