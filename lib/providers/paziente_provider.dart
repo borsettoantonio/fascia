@@ -26,11 +26,24 @@ class Paziente with ChangeNotifier {
       id: p['id']! as int,
       cognome: p['cognome']! as String,
       nome: p['nome']! as String,
-      telefono: p['telefono']! as String,
-      indirizzo: p['indirizzo']! as String,
-      citta: p['citta']! as String,
-      email: p['email']! as String,
-      punti: p['email']! as Uint8List,
+      telefono: p['telefono'] as String?,
+      indirizzo: p['indirizzo'] as String?,
+      citta: p['citta'] as String?,
+      email: p['email'] as String?,
+      punti: p['punti']! as Uint8List,
     );
+  }
+
+  Map<String, Object?> toMap() {
+    return {
+      'id': id,
+      'cognome': cognome,
+      'nome': nome,
+      'telefono': telefono,
+      'indirizzo': indirizzo,
+      'citta': citta,
+      'nemailome': email,
+      'punti': punti,
+    };
   }
 }

@@ -1,5 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import './paziente_provider.dart';
+import './pazienti_provider.dart';
 
 class PazienteCorrente with ChangeNotifier {
   static final List<String> _segName = [
@@ -66,18 +69,21 @@ class PazienteCorrente with ChangeNotifier {
     Colors.amber
   ];
 
+  Pazienti pazienti;
+  int idCorrente = 0;
   List<Segmento> segmenti = [];
 
   // costruttore
-  PazienteCorrente([Paziente? paz]) {
+  PazienteCorrente(this.pazienti) {
     for (int i = 0; i < 32; i++) {
       segmenti.add(Segmento());
     }
   }
 
   void setPazienteCorrente(Paziente paz) {
+    idCorrente = paz.id;
     int k = 0; // indice nei bytes del blob
-    for (int s = 0; s < 2; s++) {
+    for (int s = 0; s < 32; s++) {
       // elaboro i 32 segmenti
       int mask = 1;
       for (int j = 0; j < 6; j++) {
@@ -147,7 +153,49 @@ class PazienteCorrente with ChangeNotifier {
       segmenti[dati[0]].attiviInt[dati[1] - 6][dati[2]] =
           !segmenti[dati[0]].attiviInt[dati[1] - 6][dati[2]];
     }
+    updatePunti();
     notifyListeners();
+  }
+
+  void updatePunti() {
+    List<int> listaPunti = List<int>.empty(growable: true);
+
+    for (int s = 0; s < 32; s++) {
+      int primo = 0;
+      int mask = 1;
+      for (int i = 0; i < 6; i++) {
+        primo = segmenti[s].attiviExt[i] ? primo + mask : primo;
+        mask <<= 1;
+      }
+      primo = segmenti[s].attiviInt[0][0] ? primo + mask : primo;
+      mask <<= 1;
+      primo = segmenti[s].attiviInt[0][1] ? primo + mask : primo;
+      listaPunti.add(primo);
+
+      int secondo = 0;
+      mask = 1;
+      secondo = segmenti[s].attiviInt[0][2] ? secondo + mask : secondo;
+      mask <<= 1;
+      for (int i = 0; i < 3; i++) {
+        secondo = segmenti[s].attiviInt[1][i] ? secondo + mask : secondo;
+        mask <<= 1;
+      }
+      for (int i = 0; i < 3; i++) {
+        secondo = segmenti[s].attiviInt[2][i] ? secondo + mask : secondo;
+        mask <<= 1;
+      }
+      secondo = segmenti[s].attiviInt[3][0] ? secondo + mask : secondo;
+      listaPunti.add(secondo);
+      int terzo = 0;
+      for (int i = 1; i < 3; i++) {
+        terzo = segmenti[s].attiviInt[3][i] ? terzo + mask : terzo;
+        mask <<= 1;
+      }
+      listaPunti.add(terzo);
+    }
+
+    Uint8List punti = Uint8List.fromList(listaPunti);
+    pazienti.updatePuntiPazienteCorrente(idCorrente, punti);
   }
 }
 

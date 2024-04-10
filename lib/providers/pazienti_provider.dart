@@ -48,6 +48,7 @@ class Pazienti with ChangeNotifier {
 
   final int version = 1;
   Database? db;
+  List<Paziente> risultato = [];
 
   //    D:\prove_flutter_1\fascia\.dart_tool\sqflite_common_ffi\databases\pazienti.db
   //    /data/user/0/com.example.fascia/databases/pazienti.db
@@ -80,22 +81,48 @@ class Pazienti with ChangeNotifier {
       await getDatabasesPath(),
       'pazienti.db',
     );
-    db ??= await openDatabase(nomeFile, onCreate: (database, version) {
+    db = await openDatabase(nomeFile, onCreate: (database, version) {
       database.execute(
           'CREATE TABLE Pazienti(id INTEGER PRIMARY KEY, cognome TEXT, nome TEXT,telefono TEXT,'
-          'indirizzo TEXT, citta TEXT, email TEXT, blob punti)');
+          'indirizzo TEXT, citta TEXT, email TEXT, punti blob )');
     }, version: version);
     return db;
   }
 
-  List<Paziente> risultato = [];
-
-  Future getPazientiByCognome(String cognome) async {
+  Future<void> getPazientiByCognome(String cognome) async {
     Database? db = await _openDb();
-    final List<Map<String, Object?>>? paz =
-        await db?.query('Pazienti', where: 'cognome = "$cognome"');
+    final List<Map<String, Object?>>? paz = cognome == ''
+        ? await db?.query(
+            'Pazienti',
+          )
+        : await db?.query(
+            'Pazienti',
+            where: 'cognome = "$cognome"',
+          );
+    await db!.close();
     risultato = paz != null ? [for (var p in paz!) Paziente.mapToObj(p)] : [];
-    risultato.add(lista[0]);
+    //risultato.add(lista[0]);
     notifyListeners();
+  }
+
+  Future<void> updatePuntiPazienteCorrente(
+      int idCorrente, Uint8List punti) async {
+    Map<String, Object> values = {'punti': punti};
+    Database? db = await _openDb();
+
+    int? res = await db?.update(
+      'Pazienti',
+      values,
+      where: 'id = ?',
+      whereArgs: [idCorrente],
+    );
+    await db!.close();
+    // aggiorno anche la variabile risultato
+    for (final el in risultato) {
+      if (el.id == idCorrente) {
+        el.punti = punti;
+        break;
+      }
+    }
   }
 }

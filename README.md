@@ -1,7 +1,8 @@
 # fascia
 
-09.04.2024
-Ho iniziato a usare sqflite.
+10.04.2024
+Ho scritto i punti sul database, 
+ma ci sono ancora degli errori da correggere.
 
 Comando di compilazione:
 flutter build apk --split-per-abi
