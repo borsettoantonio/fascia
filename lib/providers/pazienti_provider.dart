@@ -48,7 +48,10 @@ class Pazienti with ChangeNotifier {
 
   final int version = 1;
   Database? db;
-  List<Paziente> risultato = [];
+  List<Paziente> risultato =
+      []; // risultato ricerca pazienti per lo screen di scelta del paziente
+  List<Paziente> listaPazienti =
+      []; // risultato ricerca pazienti per lo screen di gestione dei pazienti
 
   //    D:\prove_flutter_1\fascia\.dart_tool\sqflite_common_ffi\databases\pazienti.db
   //    /data/user/0/com.example.fascia/databases/pazienti.db
@@ -90,6 +93,16 @@ class Pazienti with ChangeNotifier {
   }
 
   Future<void> getPazientiByCognome(String cognome) async {
+    risultato = await getPazByCognome(cognome);
+    notifyListeners();
+  }
+
+  Future<void> listaPazientiByCognome(String cognome) async {
+    listaPazienti = await getPazByCognome(cognome);
+    notifyListeners();
+  }
+
+  Future<List<Paziente>> getPazByCognome(String cognome) async {
     Database? db = await _openDb();
     final List<Map<String, Object?>>? paz = cognome == ''
         ? await db?.query(
@@ -97,12 +110,10 @@ class Pazienti with ChangeNotifier {
           )
         : await db?.query(
             'Pazienti',
-            where: 'cognome = "$cognome"',
+            where: 'cognome LIKE "%$cognome%"',
           );
     await db!.close();
-    risultato = paz != null ? [for (var p in paz!) Paziente.mapToObj(p)] : [];
-    //risultato.add(lista[0]);
-    notifyListeners();
+    return paz != null ? [for (var p in paz!) Paziente.mapToObj(p)] : [];
   }
 
   Future<void> updatePuntiPazienteCorrente(

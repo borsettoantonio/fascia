@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../screens/cerca_paziente_screen.dart';
+import '../screens/gestione_pazienti_screen.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -15,7 +17,8 @@ class AppDrawer extends StatelessWidget {
             leading: Icon(Icons.person_search),
             title: Text('Scegli paziente'),
             onTap: () {
-              Navigator.of(context).pushReplacementNamed('/paziente');
+              Navigator.of(context)
+                  .pushReplacementNamed(CercaPazienteScreen.routeName);
             },
           ),
           Divider(),
@@ -23,7 +26,8 @@ class AppDrawer extends StatelessWidget {
             leading: Icon(Icons.payment),
             title: Text('Gestione pazienti'),
             onTap: () {
-              Navigator.of(context).pushReplacementNamed('/paziente');
+              Navigator.of(context)
+                  .pushReplacementNamed(GestionePazienteScreen.routeName);
             },
           ),
           Divider(),

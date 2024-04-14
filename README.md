@@ -1,8 +1,8 @@
 # fascia
 
-10.04.2024
-Ho scritto i punti sul database, 
-ma ci sono ancora degli errori da correggere.
+12.04.2024
+Ho iniziato la gestione dei pazienti.
+
 
 Comando di compilazione:
 flutter build apk --split-per-abi

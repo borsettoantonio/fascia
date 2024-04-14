@@ -144,7 +144,7 @@ class PazienteCorrente with ChangeNotifier {
 
   void setPunto(List<int>? dati) {
     if (dati == null) return;
-    if (dati![2] == -1) // punti della corona esterna
+    if (dati[2] == -1) // punti della corona esterna
     {
       segmenti[dati[0]].attiviExt[dati[1]] =
           !segmenti[dati[0]].attiviExt[dati[1]];
@@ -186,7 +186,11 @@ class PazienteCorrente with ChangeNotifier {
       }
       secondo = segmenti[s].attiviInt[3][0] ? secondo + mask : secondo;
       listaPunti.add(secondo);
+      /* if (s == 31) {
+        s = s + 0;
+      } */
       int terzo = 0;
+      mask = 1;
       for (int i = 1; i < 3; i++) {
         terzo = segmenti[s].attiviInt[3][i] ? terzo + mask : terzo;
         mask <<= 1;
