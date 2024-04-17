@@ -1,7 +1,7 @@
 # fascia
 
 17.04.2024
-Ho concluso la gestione paziente.
+Ho corretto alcuni bugs.
 
 
 Comando di compilazione:

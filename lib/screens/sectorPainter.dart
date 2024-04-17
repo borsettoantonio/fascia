@@ -23,7 +23,7 @@ class SectorsPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final double mainCircleDiameter = size.width / 7;
     double xPos = size.width / 2 - mainCircleDiameter / 2;
-    double yPos = 0;
+    double yPos = 20;
     const double mezzoSpazio = 3;
     final double dx = mainCircleDiameter / 2 + mezzoSpazio;
     final double dy = mainCircleDiameter + 3;
@@ -65,7 +65,7 @@ class SectorsPainter extends CustomPainter {
     }
 
     // braccia
-    yPos = dy * 3 + mainCircleDiameter / 2;
+    yPos = dy * 3 + mainCircleDiameter / 2 + 20;
     double xxPos = xPos;
     double dxx = mainCircleDiameter;
     for (int i = 0; i < 5; i++) {
@@ -108,7 +108,7 @@ class SectorsPainter extends CustomPainter {
     }
 
     // gambe
-    yPos = dy * 6 + mainCircleDiameter / 2 + 10;
+    yPos = dy * 6 + mainCircleDiameter / 2 + 30;
     xxPos = xPos;
     dxx = mainCircleDiameter;
     for (int i = 0; i < 4; i++) {

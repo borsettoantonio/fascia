@@ -79,6 +79,7 @@ class PazienteCorrente with ChangeNotifier {
   }
 
   void initSegmenti() {
+    segmenti.clear();
     for (int i = 0; i < 32; i++) {
       segmenti.add(Segmento());
     }
