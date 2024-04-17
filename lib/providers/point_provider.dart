@@ -75,6 +75,10 @@ class PazienteCorrente with ChangeNotifier {
 
   // costruttore
   PazienteCorrente(this.pazienti) {
+    initSegmenti();
+  }
+
+  void initSegmenti() {
     for (int i = 0; i < 32; i++) {
       segmenti.add(Segmento());
     }
@@ -82,6 +86,11 @@ class PazienteCorrente with ChangeNotifier {
 
   void setPazienteCorrente(Paziente paz) {
     idCorrente = paz.id;
+    if (paz.punti.isEmpty) {
+      initSegmenti();
+      return;
+    }
+
     int k = 0; // indice nei bytes del blob
     for (int s = 0; s < 32; s++) {
       // elaboro i 32 segmenti

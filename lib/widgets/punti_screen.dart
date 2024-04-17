@@ -15,12 +15,18 @@ class PuntiScreen extends StatefulWidget {
 }
 
 class _PuntiScreenState extends State<PuntiScreen> {
+  late String nomePaziente;
+  @override
+  void didChangeDependencies() {
+    nomePaziente = ModalRoute.of(context)!.settings.arguments as String;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text(nomePaziente),
       ),
       body: InteractiveViewer(
         boundaryMargin: const EdgeInsets.all(200.0),

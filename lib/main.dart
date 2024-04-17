@@ -7,6 +7,7 @@ import 'widgets/punti_screen.dart';
 import './screens/auth_screen.dart';
 import './screens/cerca_paziente_screen.dart';
 import './screens/gestione_pazienti_screen.dart';
+import './screens/edit_paziente_screen.dart';
 
 import 'package:flutter/foundation.dart';
 import 'dart:io';
@@ -64,6 +65,7 @@ class MyApp extends StatelessWidget {
           PuntiScreen.routeName: (ctx) => PuntiScreen(),
           CercaPazienteScreen.routeName: (ctx) => CercaPazienteScreen(),
           GestionePazienteScreen.routeName: (ctx) => GestionePazienteScreen(),
+          EditPazienteScreen.routeName: (ctx) => EditPazienteScreen(),
         },
       ),
     );

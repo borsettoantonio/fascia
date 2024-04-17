@@ -42,6 +42,10 @@ class CercaPazienteScreenState extends State<CercaPazienteScreen> {
                     onSubmitted: (String text) {
                       Provider.of<Pazienti>(context, listen: false)
                           .getPazientiByCognome(text);
+                      setState(() {
+                        visibleIcon = const Icon(Icons.search);
+                        searchBar = const Text('Paziente');
+                      });
                     },
                   );
                 } else {

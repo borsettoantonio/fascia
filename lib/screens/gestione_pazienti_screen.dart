@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../providers/pazienti_provider.dart';
 import '../widgets/card_paziente.dart';
 import '../widgets/paziente_tile.dart';
+import './edit_paziente_screen.dart';
 
 class GestionePazienteScreen extends StatefulWidget {
   const GestionePazienteScreen({super.key});
@@ -43,6 +44,10 @@ class GestionePazienteScreenState extends State<GestionePazienteScreen> {
                     onSubmitted: (String text) {
                       Provider.of<Pazienti>(context, listen: false)
                           .listaPazientiByCognome(text);
+                      setState(() {
+                        visibleIcon = const Icon(Icons.search);
+                        searchBar = const Text('Gestione Pazienti');
+                      });
                     },
                   );
                 } else {
@@ -54,6 +59,12 @@ class GestionePazienteScreenState extends State<GestionePazienteScreen> {
               });
             },
           ),
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              Navigator.of(context).pushNamed(EditPazienteScreen.routeName);
+            },
+          )
         ],
       ),
       body: Padding(
@@ -62,20 +73,39 @@ class GestionePazienteScreenState extends State<GestionePazienteScreen> {
           itemCount: listaPazienti.length,
           itemBuilder: (context, index) {
             final item = listaPazienti[index];
-// TODO 28: Wrap in a Dismissable
-// TODO 27: Wrap in an InkWell
-            return PazienteTile(
-                /*
-              key: Key(item.id),
-              item: item,
-              onComplete: (change) {
-                manager.completeItem(index, change);
+            return Dismissible(
+              key: Key(item.id.toString()),
+              direction: DismissDirection.endToStart,
+              background: Container(
+                color: Colors.red,
+                alignment: Alignment.centerRight,
+                child: const Icon(Icons.delete_forever,
+                    color: Colors.white, size: 50.0),
+              ),
+              onDismissed: (direction) {
+                Provider.of<Pazienti>(context, listen: false)
+                    .deletePaziente(item);
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('${item.cognome} eliminato')));
+                setState(() {
+                  listaPazienti.removeAt(index);
+                });
               },
-              */
-                );
+              child: Material(
+                child: InkWell(
+                  radius: 200,
+                  child: PazienteTile(item),
+                  onTap: () {
+                    Navigator.pushNamed(context, EditPazienteScreen.routeName,
+                        arguments: item);
+                  },
+                ),
+              ),
+            );
+            //return PazienteTile(item);
           },
           separatorBuilder: (context, index) {
-            return const SizedBox(height: 16.0);
+            return const SizedBox(height: 4.0);
           },
         ),
       ),

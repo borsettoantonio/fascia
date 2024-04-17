@@ -87,7 +87,7 @@ class Pazienti with ChangeNotifier {
     db = await openDatabase(nomeFile, onCreate: (database, version) {
       database.execute(
           'CREATE TABLE Pazienti(id INTEGER PRIMARY KEY, cognome TEXT, nome TEXT,telefono TEXT,'
-          'indirizzo TEXT, citta TEXT, email TEXT, punti blob )');
+          'indirizzo TEXT, citta TEXT, email TEXT, punti blob, note TEXT )');
     }, version: version);
     return db;
   }
@@ -132,6 +132,59 @@ class Pazienti with ChangeNotifier {
     for (final el in risultato) {
       if (el.id == idCorrente) {
         el.punti = punti;
+        break;
+      }
+    }
+  }
+
+  Future<void> updatePaziente(Paziente paz) async {
+    Map<String, Object?> values = paz.toMap();
+    Database? db = await _openDb();
+    int? res = await db?.update(
+      'Pazienti',
+      values,
+      where: 'id = ?',
+      whereArgs: [paz.id],
+    );
+    await db!.close();
+    // aggiorno anche la variabile listaPazienti
+    for (int i = 0; i < listaPazienti.length; i++) {
+      if (listaPazienti[i].id == paz.id) {
+        listaPazienti[i] = paz;
+        notifyListeners();
+        break;
+      }
+    }
+  }
+
+  Future<void> addPaziente(Paziente paz) async {
+    Map<String, Object?> values = paz.toMap();
+    values['id'] = null;
+    Database? db = await _openDb();
+    int? res = await db?.insert(
+      'Pazienti',
+      values,
+    );
+    await db!.close();
+    // aggiorno anche la variabile listaPazienti
+    paz.id = res!;
+    listaPazienti.add(paz);
+    notifyListeners();
+  }
+
+  Future<void> deletePaziente(Paziente paz) async {
+    Database? db = await _openDb();
+    int? res = await db?.delete(
+      'Pazienti',
+      where: 'id = ?',
+      whereArgs: [paz.id],
+    );
+    await db!.close();
+    // aggiorno anche la variabile listaPazienti
+    for (int i = 0; i < listaPazienti.length; i++) {
+      if (listaPazienti[i].id == paz.id) {
+        listaPazienti.removeAt(i);
+        notifyListeners();
         break;
       }
     }

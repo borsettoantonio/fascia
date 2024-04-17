@@ -9,16 +9,18 @@ class Paziente with ChangeNotifier {
   String? citta;
   String? email;
   Uint8List punti; // 3 bytes (con massimo 12 punti) per 32 segmanti
+  String? note;
 
   Paziente({
     required this.id,
     required this.cognome,
     required this.nome,
-    required this.telefono,
-    required this.indirizzo,
-    required this.citta,
+    this.telefono,
+    this.indirizzo,
+    this.citta,
     this.email,
     required this.punti,
+    this.note,
   });
 
   static Paziente mapToObj(Map<String, Object?> p) {
@@ -31,6 +33,7 @@ class Paziente with ChangeNotifier {
       citta: p['citta'] as String?,
       email: p['email'] as String?,
       punti: p['punti']! as Uint8List,
+      note: p['note'] as String?,
     );
   }
 
@@ -42,8 +45,9 @@ class Paziente with ChangeNotifier {
       'telefono': telefono,
       'indirizzo': indirizzo,
       'citta': citta,
-      'nemailome': email,
+      'email': email,
       'punti': punti,
+      'note': note,
     };
   }
 }

@@ -1,7 +1,7 @@
 # fascia
 
-12.04.2024
-Ho iniziato la gestione dei pazienti.
+17.04.2024
+Ho concluso la gestione paziente.
 
 
 Comando di compilazione:
