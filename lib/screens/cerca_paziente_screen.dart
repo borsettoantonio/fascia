@@ -34,6 +34,7 @@ class CercaPazienteScreenState extends State<CercaPazienteScreen> {
                 if (visibleIcon.icon == Icons.search) {
                   visibleIcon = const Icon(Icons.cancel);
                   searchBar = TextField(
+                    autofocus: true,
                     textInputAction: TextInputAction.search,
                     style: const TextStyle(
                       color: Colors.white,

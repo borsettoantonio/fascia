@@ -71,11 +71,26 @@ class AuthScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(
-                    height: 60,
+                    height: 50,
                   ),
                   Flexible(
                     flex: deviceSize.width > 600 ? 2 : 1,
                     child: const AuthCard(),
+                  ),
+                  const SizedBox(
+                    height: 150,
+                  ),
+                  const Row(
+                    children: [
+                      SizedBox(
+                        width: 250,
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [Text('by Borsetto'), Text('v.1.0.0')],
+                        ),
+                      )
+                    ],
                   ),
                 ],
               ),

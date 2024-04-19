@@ -36,6 +36,7 @@ class GestionePazienteScreenState extends State<GestionePazienteScreen> {
                 if (visibleIcon.icon == Icons.search) {
                   visibleIcon = const Icon(Icons.cancel);
                   searchBar = TextField(
+                    autofocus: true,
                     textInputAction: TextInputAction.search,
                     style: const TextStyle(
                       color: Colors.white,
@@ -50,6 +51,7 @@ class GestionePazienteScreenState extends State<GestionePazienteScreen> {
                       });
                     },
                   );
+                  //
                 } else {
                   setState(() {
                     visibleIcon = const Icon(Icons.search);
@@ -82,14 +84,46 @@ class GestionePazienteScreenState extends State<GestionePazienteScreen> {
                 child: const Icon(Icons.delete_forever,
                     color: Colors.white, size: 50.0),
               ),
-              onDismissed: (direction) {
-                Provider.of<Pazienti>(context, listen: false)
-                    .deletePaziente(item);
-                ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('${item.cognome} eliminato')));
-                setState(() {
-                  listaPazienti.removeAt(index);
-                });
+              confirmDismiss: (direction) async {
+                final bool res = await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        content: Text(
+                            "Confermi la cancellazione di ${item.cognome} ${item.nome}?"),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text(
+                              "Annulla",
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop(false);
+                            },
+                          ),
+                          TextButton(
+                            child: const Text(
+                              "Cancella",
+                              style: TextStyle(color: Colors.red),
+                            ),
+                            onPressed: () {
+                              Provider.of<Pazienti>(context, listen: false)
+                                  .deletePaziente(item);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text('${item.cognome} eliminato')));
+                              setState(() {
+                                listaPazienti.removeAt(index);
+                              });
+
+                              Navigator.of(context).pop(true);
+                            },
+                          ),
+                        ],
+                      );
+                    });
+                return res;
               },
               child: Material(
                 child: InkWell(

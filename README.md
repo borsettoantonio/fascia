@@ -1,7 +1,9 @@
 # fascia
 
-17.04.2024
-Ho corretto alcuni bugs.
+19.04.2024
+Ho inserito la conferma della cancellazione,
+e l'autofocus nella ricerca del paziente
+su Gestione Pazienti e Scegli Paziente 
 
 
 Comando di compilazione:
