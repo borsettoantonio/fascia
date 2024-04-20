@@ -40,6 +40,9 @@ class AuthScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  const SizedBox(
+                    height: 50,
+                  ),
                   Flexible(
                     child: Container(
                       margin: const EdgeInsets.only(bottom: 20.0),
@@ -87,7 +90,7 @@ class AuthScreen extends StatelessWidget {
                       ),
                       Expanded(
                         child: Column(
-                          children: [Text('by Borsetto'), Text('v.1.0.0')],
+                          children: [Text('by Borsetto'), Text('v.1.0.1')],
                         ),
                       )
                     ],
