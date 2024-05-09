@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:touchable/touchable.dart';
-import "dart:math" show pi;
+import "dart:math" show min, pi;
 import '../providers/point_provider.dart';
 
 class SectorsPainter extends CustomPainter {
@@ -21,7 +21,7 @@ class SectorsPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final double mainCircleDiameter = size.width / 7;
+    final double mainCircleDiameter = min(size.width / 7, size.height/12);
     double xPos = size.width / 2 - mainCircleDiameter / 2;
     double yPos = 20;
     const double mezzoSpazio = 3;

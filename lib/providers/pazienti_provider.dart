@@ -189,4 +189,9 @@ class Pazienti with ChangeNotifier {
       }
     }
   }
+
+ void resetPazienti()  {
+    listaPazienti=[];
+    notifyListeners();
+  }
 }

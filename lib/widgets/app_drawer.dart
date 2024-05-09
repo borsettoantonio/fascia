@@ -42,7 +42,7 @@ class AppDrawer extends StatelessWidget {
           const Divider(),
           ListTile(
             leading:const Icon(Icons.save),
-            title: const Text('Export database'),
+            title: const Text('Import/Export database'),
              onTap: () {
               Navigator.of(context).pushReplacementNamed(DatabaseScreen.routeName);
             },

@@ -1,7 +1,7 @@
 # fascia
 
-24.04.2024
-Ho implementato Export to Download
+09.05.2024
+Ho implementato Import from Download
 per Android e per Windows.
 Manca la versione per iOS
 

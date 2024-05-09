@@ -1,18 +1,20 @@
 import 'dart:io';
 
+import 'package:fascia/providers/pazienti_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class ExportToDownload extends StatefulWidget {
-  ExportToDownload({super.key});
+class ImportToDownload extends StatefulWidget {
+  ImportToDownload({super.key});
 
   @override
-  State<ExportToDownload> createState() => _ExportToDownloadState();
+  State<ImportToDownload> createState() => _ImportToDownloadState();
 }
 
-class _ExportToDownloadState extends State<ExportToDownload> {
+class _ImportToDownloadState extends State<ImportToDownload> {
   bool sending = false;
   double progress = 0.0;
   String message = '';
@@ -24,7 +26,7 @@ class _ExportToDownloadState extends State<ExportToDownload> {
   }
 
   @override
-  void didUpdateWidget(ExportToDownload oldWidget) {
+  void didUpdateWidget(ImportToDownload oldWidget) {
     super.didUpdateWidget(oldWidget);
     sendFile();
   }
@@ -57,22 +59,22 @@ class _ExportToDownloadState extends State<ExportToDownload> {
     bool res = await sendDatabase();
     setState(() {
       if (res) {
-        message = 'Database copiato';
+        message = 'Database importato';
       } else {
-        message = 'Errore nella copia';
+        message = 'Errore nell\'import';
       }
-      sending = false;        
-      });
+      Provider.of<Pazienti>(context, listen: false).resetPazienti();
+      sending = false;
+    });
   }
 
-  Future<File> getDB() async {
+  Future<String> getDB() async {
     String dbPath = await getDatabasesPath();
-    dbPath += '/pazienti.db';
-    return File(dbPath);
+    return '$dbPath/pazienti.db';
   }
 
   Future<bool> sendDatabase() async {
-    print((await getDownloadsDirectory())!.absolute);
+    //print((await getDownloadsDirectory())!.absolute);
     try {
       if (Platform.isAndroid) {
         PermissionStatus status1 = await Permission.storage.request();
@@ -81,25 +83,27 @@ class _ExportToDownloadState extends State<ExportToDownload> {
         // status2 isGranted for Android >= 11
         // status1 isGranted for Android < 11
         if (status1.isGranted || status2.isGranted) {
-          File sourceFile = await getDB();
-          File DestFile = await File('storage/emulated/0/Download/pazienti.db');
-          if (await DestFile.exists()) {
-            await DestFile.delete();
+          String dest = await getDB();
+          File destFile = File(dest);
+          File sourceFile = File('storage/emulated/0/Download/pazienti.db');
+          if (await destFile.exists()) {
+            await destFile.delete();
           }
-          await sourceFile.copy('/storage/emulated/0/Download/pazienti.db');
+          await sourceFile.copy(dest);
           return true;
         } else {
           return false;
         }
       } else if (Platform.isWindows) {
-        File sourceFile = await getDB();
-        String nomeDest =
+        String dest = await getDB();
+        File destFile = File(dest);
+        String nomeSource =
             '${(await getDownloadsDirectory())!.path}\\pazienti.db';
-        File DestFile = await File(nomeDest);
-        if (await DestFile.exists()) {
-          await DestFile.delete();
+        File sourceFile = File(nomeSource);
+        if (await destFile.exists()) {
+          await destFile.delete();
         }
-        await sourceFile.copy(nomeDest);
+        await sourceFile.copy(dest);
         return true;
       } else {
         // inserire la versione per iOS

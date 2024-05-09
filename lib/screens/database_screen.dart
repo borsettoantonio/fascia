@@ -1,4 +1,5 @@
 import 'package:fascia/widgets/app_drawer.dart';
+import 'package:fascia/widgets/import_from_download.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/export_to_download.dart';
@@ -44,7 +45,7 @@ class _DatabaseScreenState extends State<DatabaseScreen> {
               ),
               const PopupMenuItem(
                 value: FilterOptions.email,
-                child: Text('Export to email'),
+                child: Text('Import from Download'),
               ),
             ],
           ),
@@ -54,7 +55,7 @@ class _DatabaseScreenState extends State<DatabaseScreen> {
       body: switch(scelta)
       {
          FilterOptions.download => ExportToDownload(),
-         FilterOptions.email => Container(child:Text('email')),
+         FilterOptions.email => ImportToDownload(),
          null => null,
       },
      
