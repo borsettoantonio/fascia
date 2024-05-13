@@ -8,6 +8,9 @@ import '../providers/paziente_provider.dart';
 
 class EditPazienteScreen extends StatefulWidget {
   static const routeName = '/edit-paziente';
+  Paziente? paz;
+
+  EditPazienteScreen([Paziente? this.paz]);
 
   @override
   _EditPazienteScreenState createState() => _EditPazienteScreenState();
@@ -22,19 +25,18 @@ class _EditPazienteScreenState extends State<EditPazienteScreen> {
   final _noteFocusNode = FocusNode();
 
   final _form = GlobalKey<FormState>();
-  // var _editedPaz = Paziente(
-  //   id: 0,
-  //   cognome: '',
-  //   nome: '',
-  //   telefono: null,
-  //   indirizzo: null,
-  //   citta: null,
-  //   email: null,
-  //   punti: Uint8List(0),
-  //   note: '',
-  // );
 
-  late Paziente _editedPaz;
+  Paziente _editedPaz = Paziente(
+    id: 0,
+    cognome: '',
+    nome: '',
+    telefono: '',
+    indirizzo: '',
+    citta: '',
+    email: '',
+    punti: Uint8List(0),
+    note: '',
+  );
 
   Map<String, String?> _initValues = {
     'cognome': '',
@@ -50,11 +52,21 @@ class _EditPazienteScreenState extends State<EditPazienteScreen> {
   var _isLoading = false;
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
+    Paziente? p;
+    _isLoading = true;
     if (_isInit) {
-      var arg = ModalRoute.of(context)!.settings.arguments as Paziente?;
-      if (arg != null) {
-        _editedPaz = arg;
+      if (widget.paz != null) {
+        p = await Provider.of<Pazienti>(context, listen: false)
+            .getPazById(widget.paz!.id);
+      } else {
+        var arg = ModalRoute.of(context)!.settings.arguments as Paziente?;
+        if (arg != null) {
+          p = arg;
+        }
+      }
+      if (p != null) {
+        _editedPaz = p;
         _initValues = {
           'cognome': _editedPaz!.cognome,
           'nome': _editedPaz!.nome,
@@ -80,6 +92,10 @@ class _EditPazienteScreenState extends State<EditPazienteScreen> {
     }
 
     _isInit = false;
+    setState(() {
+      _isLoading = false;
+    });
+
     super.didChangeDependencies();
   }
 
@@ -103,8 +119,8 @@ class _EditPazienteScreenState extends State<EditPazienteScreen> {
     setState(() {
       _isLoading = true;
     });
-    if (_editedPaz.id != 0) {
-      Provider.of<Pazienti>(context, listen: false).updatePaziente(_editedPaz);
+    if (_editedPaz!.id != 0) {
+      Provider.of<Pazienti>(context, listen: false).updatePaziente(_editedPaz!);
     } else {
       try {
         Provider.of<Pazienti>(context, listen: false).addPaziente(_editedPaz!);
@@ -135,13 +151,16 @@ class _EditPazienteScreenState extends State<EditPazienteScreen> {
     setState(() {
       _isLoading = false;
     });
-    Navigator.of(context).pop();
+    if (widget.paz == null) {
+      Navigator.of(context).pop();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: _editedPaz.id != 0
             ? const Text('Modifica Paziente')
             : const Text('Crea Paziente'),

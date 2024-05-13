@@ -1,8 +1,11 @@
+import 'package:fascia/providers/paziente_provider.dart';
+import 'package:fascia/screens/edit_paziente_screen.dart';
 import 'package:flutter/material.dart';
 import '../screens/sectorPainter.dart';
 import 'package:touchable/touchable.dart';
 import 'package:provider/provider.dart';
 import '../providers/point_provider.dart';
+import 'dart:ui';
 
 class PuntiScreen extends StatefulWidget {
   const PuntiScreen({super.key});
@@ -16,54 +19,72 @@ class PuntiScreen extends StatefulWidget {
 
 class _PuntiScreenState extends State<PuntiScreen> {
   late String nomePaziente;
+  late Paziente paz;
+
   @override
   void didChangeDependencies() {
-    nomePaziente = ModalRoute.of(context)!.settings.arguments as String;
+    super.didChangeDependencies();
+    paz = ModalRoute.of(context)!.settings.arguments as Paziente;
+    nomePaziente = '${paz.cognome} ${paz.nome}';
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(nomePaziente),
+    return ScrollConfiguration(
+      behavior: ScrollConfiguration.of(context).copyWith(
+        dragDevices: {
+          PointerDeviceKind.touch,
+          PointerDeviceKind.mouse,
+        },
       ),
-      body: InteractiveViewer(
-        boundaryMargin: const EdgeInsets.all(200.0),
-        minScale: 0.01,
-        maxScale: 2.6,
-        //clipBehavior: Clip.none,
-        child: SafeArea(
-          child: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              return Container(
-                color: Colors.black12,
-                height: constraints.maxHeight,
-                width: constraints.maxWidth,
-                alignment: Alignment.center,
-                child: CanvasTouchDetector(
-                    gesturesToOverride: const [GestureType.onTapDown],
-                    builder: (context) {
-                      return CustomPaint(
-                        painter: SectorsPainter(
-                            context: context,
-                            onTap: (detail) async {
-                              Provider.of<PazienteCorrente>(context,
-                                      listen: false)
-                                  .setPunto(await _showPopupMenu(
-                                context,
-                                (detail as TapDownDetails).localPosition,
-                                constraints.maxWidth / 14,
-                              ));
-                              //print(x);
-                            }),
-                        size: Size(constraints.maxWidth, constraints.maxHeight),
-                      );
-                    }),
-              );
-            },
+      child: PageView(
+        children: [
+          Scaffold(
+            appBar: AppBar(
+              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+              title: Text(nomePaziente),
+            ),
+            body: InteractiveViewer(
+              boundaryMargin: const EdgeInsets.all(200.0),
+              minScale: 0.01,
+              maxScale: 2.6,
+              //clipBehavior: Clip.none,
+              child: SafeArea(
+                child: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return Container(
+                      color: Colors.black12,
+                      height: constraints.maxHeight,
+                      width: constraints.maxWidth,
+                      alignment: Alignment.center,
+                      child: CanvasTouchDetector(
+                          gesturesToOverride: const [GestureType.onTapDown],
+                          builder: (context) {
+                            return CustomPaint(
+                              painter: SectorsPainter(
+                                  context: context,
+                                  onTap: (detail) async {
+                                    Provider.of<PazienteCorrente>(context,
+                                            listen: false)
+                                        .setPunto(await _showPopupMenu(
+                                      context,
+                                      (detail as TapDownDetails).localPosition,
+                                      constraints.maxWidth / 14,
+                                    ));
+                                    //print(x);
+                                  }),
+                              size: Size(
+                                  constraints.maxWidth, constraints.maxHeight),
+                            );
+                          }),
+                    );
+                  },
+                ),
+              ),
+            ),
           ),
-        ),
+          EditPazienteScreen(paz),
+        ],
       ),
     );
   }

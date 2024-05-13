@@ -29,9 +29,9 @@ class CardPaziente extends StatelessWidget {
           onTap: () {
             Provider.of<PazienteCorrente>(context, listen: false)
                 .setPazienteCorrente(lista[position]);
-            Navigator.of(context).pushNamed(PuntiScreen.routeName,
-                arguments:
-                    '${lista[position].cognome} ${lista[position].nome}');
+            Navigator.of(context)
+                .pushNamed(PuntiScreen.routeName, arguments: lista[position]);
+            //'${lista[position].cognome} ${lista[position].nome}');
           },
         ));
   }

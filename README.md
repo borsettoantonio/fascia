@@ -1,9 +1,7 @@
 # fascia
 
-09.05.2024
-Ho implementato Import from Download
-per Android e per Windows.
-Manca la versione per iOS
+13.05.2024
+Ho aggiunto la possibilità di swipe dai punti al paziente
 
 
 Comando di compilazione:

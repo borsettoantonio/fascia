@@ -5,47 +5,6 @@ import 'package:sqflite/sqflite.dart';
 import './paziente_provider.dart';
 
 class Pazienti with ChangeNotifier {
-  List<Paziente> lista = <Paziente>[
-    Paziente(
-      id: 1,
-      cognome: 'Rossi',
-      nome: 'Mario',
-      telefono: '0425492561',
-      indirizzo: 'via Roma 77',
-      citta: 'Roma',
-      email: 'rossimario@gmail.com',
-      punti: Uint8List.fromList([
-        127,
-        146,
-        3,
-        1,
-        2,
-        3,
-      ]),
-    ),
-    Paziente(
-      id: 2,
-      cognome: 'Rossini',
-      nome: 'Giulio',
-      telefono: '0425492561',
-      indirizzo: 'via Roma 88',
-      citta: 'Rovigo',
-      email: 'rossimario@gmail.com',
-      punti: Uint8List.fromList([
-        1,
-        2,
-        3,
-        1,
-        2,
-        3,
-        ...[1, 1, 2],
-        ...[3, 3, 1],
-        ...[1, 1, 2],
-        ...[3, 3, 1]
-      ]),
-    ),
-  ];
-
   final int version = 1;
   Database? db;
   List<Paziente> risultato =
@@ -116,6 +75,16 @@ class Pazienti with ChangeNotifier {
     return paz != null ? [for (var p in paz!) Paziente.mapToObj(p)] : [];
   }
 
+  Future<Paziente?> getPazById(int id) async {
+    Database? db = await _openDb();
+    final List<Map<String, Object?>>? paz = await db?.query(
+      'Pazienti',
+      where: 'id = $id',
+    );
+    await db!.close();
+    return paz != null ? Paziente.mapToObj(paz[0]) : null;
+  }
+
   Future<void> updatePuntiPazienteCorrente(
       int idCorrente, Uint8List punti) async {
     Map<String, Object> values = {'punti': punti};
@@ -155,6 +124,19 @@ class Pazienti with ChangeNotifier {
         break;
       }
     }
+
+/*
+    // aggiorno anche la variabile risultato
+    for (int i = 0; i < risultato.length; i++) {
+      if (risultato[i].id == paz.id) {
+        risultato[i] = paz;
+        //notifyListeners();
+        break;
+      }
+    }
+
+    notifyListeners();
+*/
   }
 
   Future<void> addPaziente(Paziente paz) async {
@@ -190,8 +172,8 @@ class Pazienti with ChangeNotifier {
     }
   }
 
- void resetPazienti()  {
-    listaPazienti=[];
+  void resetPazienti() {
+    listaPazienti = [];
     notifyListeners();
   }
 }
