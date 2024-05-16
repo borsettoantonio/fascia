@@ -1,8 +1,10 @@
 # fascia
 
-13.05.2024
-Ho aggiunto la possibilità di swipe dai punti al paziente
-
+16.05.2024
+Ho corretto un bug su resetPazienti().
+Ho aggiunto:
+risultato = [];
+per azzerare la lista risultato quando si carica un nuovo database.
 
 Comando di compilazione:
 flutter build apk --split-per-abi --no-tree-shake-icons
