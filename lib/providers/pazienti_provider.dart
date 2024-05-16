@@ -170,6 +170,14 @@ class Pazienti with ChangeNotifier {
         break;
       }
     }
+    // aggiorno anche la variabile risultato
+    for (int i = 0; i < risultato.length; i++) {
+      if (risultato[i].id == paz.id) {
+        risultato.removeAt(i);
+        // notifyListeners();
+        break;
+      }
+    }
   }
 
   void resetPazienti() {

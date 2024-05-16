@@ -1,10 +1,9 @@
 # fascia
 
 16.05.2024
-Ho corretto un bug su resetPazienti().
-Ho aggiunto:
-risultato = [];
-per azzerare la lista risultato quando si carica un nuovo database.
+Ho corretto un bug su deletePaziente().
+Ho cercato ed eventualmente eliminato anche dalla
+lista risultato il paziente cancellato.
 
 Comando di compilazione:
 flutter build apk --split-per-abi --no-tree-shake-icons

@@ -76,10 +76,9 @@ class AuthScreen extends StatelessWidget {
                   const SizedBox(
                     height: 50,
                   ),
-                  Flexible(
-                    //flex: deviceSize.width > 600 ? 2 : 1,
-                    flex:2,
-                    child: const AuthCard(),
+                  const Flexible(
+                    flex: 2,
+                    child: AuthCard(),
                   ),
                   const SizedBox(
                     height: 80,
@@ -118,7 +117,7 @@ class AuthCard extends StatefulWidget {
 class _AuthCardState extends State<AuthCard> {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
-  Map<String, String> _authData = {
+  final Map<String, String> _authData = {
     'password': '',
   };
 
@@ -164,8 +163,8 @@ class _AuthCardState extends State<AuthCard> {
       ),
       elevation: 8.0,
       child: Container(
-        height: 260,
-        constraints: const BoxConstraints(minHeight: 160),
+        height: 300,
+        constraints: const BoxConstraints(minHeight: 260),
         width: deviceSize.width * 0.75,
         padding: const EdgeInsets.all(40.0),
         child: Form(
@@ -204,6 +203,13 @@ class _AuthCardState extends State<AuthCard> {
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text('Password dimenticata?'),
+                )
               ],
             ),
           ),
