@@ -51,28 +51,31 @@ class _PazienteTileState extends State<PazienteTile> {
               ),
               child: ListView(
                 children: [
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          widget.paziente.indirizzo != null
-                              ? widget.paziente.indirizzo!
-                              : '',
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.normal,
+                  Padding(
+                    padding: EdgeInsets.only(right: 15),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            widget.paziente.indirizzo != null
+                                ? widget.paziente.indirizzo!
+                                : '',
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                            ),
                           ),
-                        ),
-                        Text(
-                          widget.paziente.citta != null
-                              ? widget.paziente.citta!
-                              : '',
-                          style: const TextStyle(
-                            fontSize: 18,
-                            color: Colors.grey,
-                          ),
-                        )
-                      ]),
+                          Text(
+                            widget.paziente.citta != null
+                                ? widget.paziente.citta!
+                                : '',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.grey,
+                            ),
+                          )
+                        ]),
+                  ),
                   Text(
                     widget.paziente.email != null ? widget.paziente.email! : '',
                     style: const TextStyle(

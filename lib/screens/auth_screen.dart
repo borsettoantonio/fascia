@@ -1,14 +1,42 @@
 import 'dart:math';
 
+import 'package:fascia/widgets/password_card.dart';
+import 'package:fascia/widgets/pet_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/point_provider.dart';
-import './cerca_paziente_screen.dart';
-//import '../models/http_exception.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
-class AuthScreen extends StatelessWidget {
+class AuthScreen extends StatefulWidget {
   static const routeName = '/auth';
+
+  @override
+  State<AuthScreen> createState() => _AuthScreenState();
+}
+
+class _AuthScreenState extends State<AuthScreen> {
+  PackageInfo _packageInfo = PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+    buildSignature: 'Unknown',
+    installerStore: 'Unknown',
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    _initPackageInfo();
+  }
+
+  Future<void> _initPackageInfo() async {
+    final info = await PackageInfo.fromPlatform();
+    setState(() {
+      _packageInfo = info;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,14 +111,17 @@ class AuthScreen extends StatelessWidget {
                   const SizedBox(
                     height: 80,
                   ),
-                  const Row(
+                  Row(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 250,
                       ),
                       Expanded(
                         child: Column(
-                          children: [Text('by Borsetto'), Text('v.1.0.1')],
+                          children: [
+                            const Text('by Borsetto'),
+                            Text(_packageInfo.version)
+                          ],
                         ),
                       )
                     ],
@@ -102,6 +133,11 @@ class AuthScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<String> Versione() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    return packageInfo.version;
   }
 }
 
@@ -115,106 +151,16 @@ class AuthCard extends StatefulWidget {
 }
 
 class _AuthCardState extends State<AuthCard> {
-  final GlobalKey<FormState> _formKey = GlobalKey();
+  bool psw = true;
 
-  final Map<String, String> _authData = {
-    'password': '',
-  };
-
-  final _passwordController = TextEditingController();
-
-  void _showErrorDialog(String message) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('An Error Occurred!'),
-        content: Text(message),
-        actions: <Widget>[
-          TextButton(
-            child: const Text('Okay'),
-            onPressed: () {
-              Navigator.of(ctx).pop();
-            },
-          )
-        ],
-      ),
-    );
-  }
-
-  Future<void> _submit() async {
-    if (!_formKey.currentState!.validate()) {
-      // Invalid!
-      return;
-    }
-    _formKey.currentState!.save();
-    if (_authData['password'] != '12345') {
-      _showErrorDialog('Password errata!');
-    } else {
-      Navigator.of(context).pushReplacementNamed(CercaPazienteScreen.routeName);
-    }
+  void cambia(bool passw) {
+    setState(() {
+      psw = passw;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.of(context).size;
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      elevation: 8.0,
-      child: Container(
-        height: 300,
-        constraints: const BoxConstraints(minHeight: 260),
-        width: deviceSize.width * 0.75,
-        padding: const EdgeInsets.all(40.0),
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                TextFormField(
-                  decoration: const InputDecoration(labelText: 'Password'),
-                  obscureText: true,
-                  controller: _passwordController,
-                  validator: (value) {
-                    if (value!.isEmpty || value.length < 5) {
-                      return 'Password troppo corta!';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _authData['password'] = value!;
-                  },
-                ),
-                const SizedBox(
-                  height: 50,
-                ),
-                ElevatedButton(
-                  onPressed: _submit,
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                    backgroundColor: Colors.blue,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 30.0, vertical: 8.0),
-                  ),
-                  child: const Text(
-                    'LOGIN',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text('Password dimenticata?'),
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+    return psw ? PasswordCard(cambia) : PetCard(cambia);
   }
 }

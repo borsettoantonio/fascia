@@ -1,9 +1,8 @@
 # fascia
 
-16.05.2024
-Ho corretto un bug su deletePaziente().
-Ho cercato ed eventualmente eliminato anche dalla
-lista risultato il paziente cancellato.
+23.05.2024
+Ho inserito la lettura della versione da pubspec.yaml
+usando il package package_info_plus.
 
 Comando di compilazione:
 flutter build apk --split-per-abi --no-tree-shake-icons
