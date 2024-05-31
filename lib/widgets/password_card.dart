@@ -1,5 +1,7 @@
+import 'package:fascia/providers/password_provider.dart';
 import 'package:fascia/screens/cerca_paziente_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 typedef MapCallback = void Function(bool psw);
 
@@ -21,13 +23,15 @@ class PasswordCardState extends State<PasswordCard> {
     'password': '',
   };
 
-  Future<void> _submit() async {
+  void _submit(BuildContext context) {
     if (!_formKey.currentState!.validate()) {
       // Invalid!
       return;
     }
     _formKey.currentState!.save();
-    if (_authData['password'] != '12345') {
+
+    if (_authData['password'] !=
+        Provider.of<Password>(context, listen: false).psw) {
       _showErrorDialog('Password errata!');
     } else {
       Navigator.of(context).pushReplacementNamed(CercaPazienteScreen.routeName);
@@ -81,14 +85,14 @@ class PasswordCardState extends State<PasswordCard> {
                     return null;
                   },
                   onSaved: (value) {
-                    _authData['password'] = value!;
+                    _authData['password'] = Password.encryptPassword(value!);
                   },
                 ),
                 const SizedBox(
                   height: 50,
                 ),
                 ElevatedButton(
-                  onPressed: _submit,
+                  onPressed: () => _submit(context),
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),

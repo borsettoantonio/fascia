@@ -1,3 +1,4 @@
+import 'package:fascia/providers/password_provider.dart';
 import 'package:fascia/screens/database_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -53,6 +54,9 @@ class MyApp extends StatelessWidget {
             create: (context) => PazienteCorrente(
                   Provider.of<Pazienti>(context, listen: false),
                 )),
+        Provider(
+          create: (context) => Password(),
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -63,9 +67,10 @@ class MyApp extends StatelessWidget {
         ),
         home: AuthScreen(),
         routes: {
-          PuntiScreen.routeName: (ctx) => PuntiScreen(),
-          CercaPazienteScreen.routeName: (ctx) => CercaPazienteScreen(),
-          GestionePazienteScreen.routeName: (ctx) => GestionePazienteScreen(),
+          PuntiScreen.routeName: (ctx) => const PuntiScreen(),
+          CercaPazienteScreen.routeName: (ctx) => const CercaPazienteScreen(),
+          GestionePazienteScreen.routeName: (ctx) =>
+              const GestionePazienteScreen(),
           EditPazienteScreen.routeName: (ctx) => EditPazienteScreen(),
           DatabaseScreen.routeName: (ctx) => DatabaseScreen(),
         },

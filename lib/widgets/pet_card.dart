@@ -1,9 +1,11 @@
+import 'package:fascia/providers/password_provider.dart';
 import 'package:fascia/screens/cerca_paziente_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PetCard extends StatefulWidget {
-  PetCard(this.cambia, {super.key});
-  Function(bool psw) cambia;
+  const PetCard(this.cambia, {super.key});
+  final Function(bool psw) cambia;
 
   @override
   PetCardState createState() => PetCardState();
@@ -17,13 +19,13 @@ class PetCardState extends State<PetCard> {
     'pet': '',
   };
 
-  Future<void> _submit() async {
+  void _submit(BuildContext context) {
     if (!_formKey.currentState!.validate()) {
       // Invalid!
       return;
     }
     _formKey.currentState!.save();
-    if (_authData['pet'] != 'fido') {
+    if (_authData['pet'] != Provider.of<Password>(context, listen: false).pet) {
       _showErrorDialog('Nome errato!');
     } else {
       Navigator.of(context).pushReplacementNamed(CercaPazienteScreen.routeName);
@@ -51,6 +53,7 @@ class PetCardState extends State<PetCard> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    //final _passw = Provider.of<Password>(context,listen: false);
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
@@ -79,14 +82,14 @@ class PetCardState extends State<PetCard> {
                     return null;
                   },
                   onSaved: (value) {
-                    _authData['pet'] = value!;
+                    _authData['pet'] = Password.encryptPassword(value!);
                   },
                 ),
                 const SizedBox(
                   height: 50,
                 ),
                 ElevatedButton(
-                  onPressed: _submit,
+                  onPressed: () => _submit(context),
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),
