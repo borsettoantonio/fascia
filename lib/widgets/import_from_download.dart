@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:fascia/providers/password_provider.dart';
 
 class ImportToDownload extends StatefulWidget {
   ImportToDownload({super.key});
@@ -90,7 +91,14 @@ class _ImportToDownloadState extends State<ImportToDownload> {
             await destFile.delete();
           }
           await sourceFile.copy(dest);
-          return true;
+          // scrivo le password correnti sul database
+          var pswProvider = Provider.of<Password>(context, listen: false);
+          int res = await pswProvider.aggiornaPassword();
+          if (res != 0) {
+            return true;
+          } else {
+            return false;
+          }
         } else {
           return false;
         }
@@ -104,7 +112,14 @@ class _ImportToDownloadState extends State<ImportToDownload> {
           await destFile.delete();
         }
         await sourceFile.copy(dest);
-        return true;
+        // scrivo le password correnti sul database
+        var pswProvider = Provider.of<Password>(context, listen: false);
+        int res = await pswProvider.aggiornaPassword();
+        if (res != 0) {
+          return true;
+        } else {
+          return false;
+        }
       } else {
         // inserire la versione per iOS
         return false;

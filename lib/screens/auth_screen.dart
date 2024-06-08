@@ -3,9 +3,7 @@ import 'dart:math';
 import 'package:fascia/widgets/password_card.dart';
 import 'package:fascia/widgets/pet_card.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../providers/point_provider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -56,7 +54,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                stops: [0, 1],
+                stops: const [0, 1],
               ),
             ),
           ),

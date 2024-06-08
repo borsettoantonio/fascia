@@ -1,8 +1,7 @@
 # fascia
 
-23.05.2024
-Ho inserito la lettura della versione da pubspec.yaml
-usando il package package_info_plus.
+08.06.2024
+Ho inserito il cambio di password.
 
 Comando di compilazione:
 flutter build apk --split-per-abi --no-tree-shake-icons

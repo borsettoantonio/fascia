@@ -1,4 +1,5 @@
 import 'package:fascia/screens/database_screen.dart';
+import 'package:fascia/screens/gestione_password_screen.dart';
 import 'package:flutter/material.dart';
 import '../screens/cerca_paziente_screen.dart';
 import '../screens/gestione_pazienti_screen.dart';
@@ -33,25 +34,24 @@ class AppDrawer extends StatelessWidget {
           ),
           const Divider(),
           ListTile(
-            leading:const  Icon(Icons.edit),
+            leading: const Icon(Icons.edit),
             title: const Text('Gestione password'),
             onTap: () {
-              Navigator.of(context).pushReplacementNamed('/paziente');
+              Navigator.of(context)
+                  .pushReplacementNamed(GestionePasswordScreen.routeName);
             },
           ),
           const Divider(),
           ListTile(
-            leading:const Icon(Icons.save),
+            leading: const Icon(Icons.save),
             title: const Text('Import/Export database'),
-             onTap: () {
-              Navigator.of(context).pushReplacementNamed(DatabaseScreen.routeName);
+            onTap: () {
+              Navigator.of(context)
+                  .pushReplacementNamed(DatabaseScreen.routeName);
             },
           ),
         ],
       ),
     );
   }
-}
-
-class GDatabaseScreen {
 }

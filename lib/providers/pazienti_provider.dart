@@ -17,7 +17,7 @@ class Pazienti with ChangeNotifier {
 
 // versione con due tabelle
 /*
-  Future<Database?> _openDb() async {
+  Future<Database?> openDb() async {
     final nomeFile = join(
       await getDatabasesPath(),
       'pazienti.db',
@@ -38,7 +38,7 @@ class Pazienti with ChangeNotifier {
 */
 
 // versione con una tabella
-  Future<Database?> _openDb() async {
+  Future<Database?> openDb() async {
     final nomeFile = join(
       await getDatabasesPath(),
       'pazienti.db',
@@ -62,7 +62,7 @@ class Pazienti with ChangeNotifier {
   }
 
   Future<List<Paziente>> getPazByCognome(String cognome) async {
-    Database? db = await _openDb();
+    Database? db = await openDb();
     final List<Map<String, Object?>>? paz = cognome == ''
         ? await db?.query(
             'Pazienti',
@@ -76,7 +76,7 @@ class Pazienti with ChangeNotifier {
   }
 
   Future<Paziente?> getPazById(int id) async {
-    Database? db = await _openDb();
+    Database? db = await openDb();
     final List<Map<String, Object?>>? paz = await db?.query(
       'Pazienti',
       where: 'id = $id',
@@ -88,7 +88,7 @@ class Pazienti with ChangeNotifier {
   Future<void> updatePuntiPazienteCorrente(
       int idCorrente, Uint8List punti) async {
     Map<String, Object> values = {'punti': punti};
-    Database? db = await _openDb();
+    Database? db = await openDb();
 
     int? res = await db?.update(
       'Pazienti',
@@ -108,7 +108,7 @@ class Pazienti with ChangeNotifier {
 
   Future<void> updatePaziente(Paziente paz) async {
     Map<String, Object?> values = paz.toMap();
-    Database? db = await _openDb();
+    Database? db = await openDb();
     int? res = await db?.update(
       'Pazienti',
       values,
@@ -142,7 +142,7 @@ class Pazienti with ChangeNotifier {
   Future<void> addPaziente(Paziente paz) async {
     Map<String, Object?> values = paz.toMap();
     values['id'] = null;
-    Database? db = await _openDb();
+    Database? db = await openDb();
     int? res = await db?.insert(
       'Pazienti',
       values,
@@ -155,7 +155,7 @@ class Pazienti with ChangeNotifier {
   }
 
   Future<void> deletePaziente(Paziente paz) async {
-    Database? db = await _openDb();
+    Database? db = await openDb();
     int? res = await db?.delete(
       'Pazienti',
       where: 'id = ?',

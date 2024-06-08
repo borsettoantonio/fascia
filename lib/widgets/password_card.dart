@@ -8,7 +8,7 @@ typedef MapCallback = void Function(bool psw);
 // ignore: must_be_immutable
 class PasswordCard extends StatefulWidget {
   PasswordCard(this.cambia, {super.key});
-  //Function(bool psw) cambia;
+
   final MapCallback cambia;
 
   @override
@@ -42,7 +42,7 @@ class PasswordCardState extends State<PasswordCard> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('An Error Occurred!'),
+        title: const Text('Si è verificato un errore!'),
         content: Text(message),
         actions: <Widget>[
           TextButton(

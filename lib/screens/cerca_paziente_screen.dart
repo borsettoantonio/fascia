@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../widgets/app_drawer.dart';
-import '../widgets/punti_screen.dart';
 import 'package:provider/provider.dart';
 import '../providers/pazienti_provider.dart';
 import '../widgets/card_paziente.dart';

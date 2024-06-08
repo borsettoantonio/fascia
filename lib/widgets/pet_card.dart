@@ -36,7 +36,7 @@ class PetCardState extends State<PetCard> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('An Error Occurred!'),
+        title: const Text('Si è verificato un errore!'),
         content: Text(message),
         actions: <Widget>[
           TextButton(

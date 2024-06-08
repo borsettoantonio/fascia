@@ -1,5 +1,7 @@
 import 'package:fascia/providers/password_provider.dart';
 import 'package:fascia/screens/database_screen.dart';
+import 'package:fascia/screens/gestione_password_screen.dart';
+import 'package:fascia/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -55,7 +57,7 @@ class MyApp extends StatelessWidget {
                   Provider.of<Pazienti>(context, listen: false),
                 )),
         Provider(
-          create: (context) => Password(),
+          create: (context) => Password(context),
         )
       ],
       child: MaterialApp(
@@ -65,14 +67,16 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: AuthScreen(),
+        home: SplashScreen(),
         routes: {
+          AuthScreen.routeName: (ctx) => AuthScreen(),
           PuntiScreen.routeName: (ctx) => const PuntiScreen(),
           CercaPazienteScreen.routeName: (ctx) => const CercaPazienteScreen(),
           GestionePazienteScreen.routeName: (ctx) =>
               const GestionePazienteScreen(),
           EditPazienteScreen.routeName: (ctx) => EditPazienteScreen(),
           DatabaseScreen.routeName: (ctx) => DatabaseScreen(),
+          GestionePasswordScreen.routeName: (ctx) => GestionePasswordScreen(),
         },
       ),
     );
