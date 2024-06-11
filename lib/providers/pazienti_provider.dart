@@ -6,7 +6,7 @@ import './paziente_provider.dart';
 
 class Pazienti with ChangeNotifier {
   final int version = 1;
-  Database? db;
+  late Database db;
   List<Paziente> risultato =
       []; // risultato ricerca pazienti per lo screen di scelta del paziente
   List<Paziente> listaPazienti =
@@ -38,7 +38,7 @@ class Pazienti with ChangeNotifier {
 */
 
 // versione con una tabella
-  Future<Database?> openDb() async {
+  Future<Database> openDb() async {
     final nomeFile = join(
       await getDatabasesPath(),
       'pazienti.db',
@@ -62,41 +62,41 @@ class Pazienti with ChangeNotifier {
   }
 
   Future<List<Paziente>> getPazByCognome(String cognome) async {
-    Database? db = await openDb();
-    final List<Map<String, Object?>>? paz = cognome == ''
-        ? await db?.query(
+    Database db = await openDb();
+    final List<Map<String, Object?>> paz = cognome == ''
+        ? await db.query(
             'Pazienti',
           )
-        : await db?.query(
+        : await db.query(
             'Pazienti',
             where: 'cognome LIKE "%$cognome%"',
           );
-    await db!.close();
-    return paz != null ? [for (var p in paz!) Paziente.mapToObj(p)] : [];
+    await db.close();
+    return [for (var p in paz) Paziente.mapToObj(p)];
   }
 
   Future<Paziente?> getPazById(int id) async {
-    Database? db = await openDb();
-    final List<Map<String, Object?>>? paz = await db?.query(
+    Database db = await openDb();
+    final List<Map<String, Object?>> paz = await db.query(
       'Pazienti',
       where: 'id = $id',
     );
-    await db!.close();
-    return paz != null ? Paziente.mapToObj(paz[0]) : null;
+    await db.close();
+    return paz.isEmpty ? null : Paziente.mapToObj(paz[0]);
   }
 
   Future<void> updatePuntiPazienteCorrente(
       int idCorrente, Uint8List punti) async {
     Map<String, Object> values = {'punti': punti};
-    Database? db = await openDb();
+    Database db = await openDb();
 
-    int? res = await db?.update(
+    await db.update(
       'Pazienti',
       values,
       where: 'id = ?',
       whereArgs: [idCorrente],
     );
-    await db!.close();
+    await db.close();
     // aggiorno anche la variabile risultato
     for (final el in risultato) {
       if (el.id == idCorrente) {
@@ -108,14 +108,14 @@ class Pazienti with ChangeNotifier {
 
   Future<void> updatePaziente(Paziente paz) async {
     Map<String, Object?> values = paz.toMap();
-    Database? db = await openDb();
-    int? res = await db?.update(
+    Database db = await openDb();
+    await db.update(
       'Pazienti',
       values,
       where: 'id = ?',
       whereArgs: [paz.id],
     );
-    await db!.close();
+    await db.close();
     // aggiorno anche la variabile listaPazienti
     for (int i = 0; i < listaPazienti.length; i++) {
       if (listaPazienti[i].id == paz.id) {
@@ -143,25 +143,25 @@ class Pazienti with ChangeNotifier {
     Map<String, Object?> values = paz.toMap();
     values['id'] = null;
     Database? db = await openDb();
-    int? res = await db?.insert(
+    int res = await db.insert(
       'Pazienti',
       values,
     );
-    await db!.close();
+    await db.close();
     // aggiorno anche la variabile listaPazienti
-    paz.id = res!;
+    paz.id = res;
     listaPazienti.add(paz);
     notifyListeners();
   }
 
   Future<void> deletePaziente(Paziente paz) async {
-    Database? db = await openDb();
-    int? res = await db?.delete(
+    Database db = await openDb();
+    await db.delete(
       'Pazienti',
       where: 'id = ?',
       whereArgs: [paz.id],
     );
-    await db!.close();
+    await db.close();
     // aggiorno anche la variabile listaPazienti
     for (int i = 0; i < listaPazienti.length; i++) {
       if (listaPazienti[i].id == paz.id) {

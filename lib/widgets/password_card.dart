@@ -7,7 +7,7 @@ typedef MapCallback = void Function(bool psw);
 
 // ignore: must_be_immutable
 class PasswordCard extends StatefulWidget {
-  PasswordCard(this.cambia, {super.key});
+  const PasswordCard(this.cambia, {super.key});
 
   final MapCallback cambia;
 

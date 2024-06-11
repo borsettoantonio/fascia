@@ -8,26 +8,28 @@ import 'package:sqflite/sqflite.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:fascia/providers/password_provider.dart';
 
-class ImportToDownload extends StatefulWidget {
-  ImportToDownload({super.key});
+class ImportFromDownload extends StatefulWidget {
+  const ImportFromDownload({super.key});
 
   @override
-  State<ImportToDownload> createState() => _ImportToDownloadState();
+  State<ImportFromDownload> createState() => _ImportFromDownloadState();
 }
 
-class _ImportToDownloadState extends State<ImportToDownload> {
+class _ImportFromDownloadState extends State<ImportFromDownload> {
   bool sending = false;
   double progress = 0.0;
   String message = '';
 
   @override
   void initState() {
-    sendFile();
+    Future.delayed(Duration.zero, () {
+      sendFile();
+    });
     super.initState();
   }
 
   @override
-  void didUpdateWidget(ImportToDownload oldWidget) {
+  void didUpdateWidget(ImportFromDownload oldWidget) {
     super.didUpdateWidget(oldWidget);
     sendFile();
   }
@@ -92,10 +94,14 @@ class _ImportToDownloadState extends State<ImportToDownload> {
           }
           await sourceFile.copy(dest);
           // scrivo le password correnti sul database
-          var pswProvider = Provider.of<Password>(context, listen: false);
-          int res = await pswProvider.aggiornaPassword();
-          if (res != 0) {
-            return true;
+          if (mounted) {
+            var pswProvider = Provider.of<Password>(context, listen: false);
+            int res = await pswProvider.aggiornaPassword();
+            if (res != 0) {
+              return true;
+            } else {
+              return false;
+            }
           } else {
             return false;
           }
@@ -113,10 +119,14 @@ class _ImportToDownloadState extends State<ImportToDownload> {
         }
         await sourceFile.copy(dest);
         // scrivo le password correnti sul database
-        var pswProvider = Provider.of<Password>(context, listen: false);
-        int res = await pswProvider.aggiornaPassword();
-        if (res != 0) {
-          return true;
+        if (mounted) {
+          var pswProvider = Provider.of<Password>(context, listen: false);
+          int res = await pswProvider.aggiornaPassword();
+          if (res != 0) {
+            return true;
+          } else {
+            return false;
+          }
         } else {
           return false;
         }

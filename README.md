@@ -1,7 +1,7 @@
 # fascia
 
-08.06.2024
-Ho inserito il cambio di password.
+10.06.2024
+Ho tolto tutti i warning.
 
 Comando di compilazione:
 flutter build apk --split-per-abi --no-tree-shake-icons

@@ -6,10 +6,10 @@ import '../providers/paziente_provider.dart';
 
 class PazienteTile extends StatefulWidget {
   final Paziente paziente;
-  PazienteTile(this.paziente);
+  const PazienteTile(this.paziente, {super.key});
 
   @override
-  _PazienteTileState createState() => _PazienteTileState();
+  State<PazienteTile> createState() => _PazienteTileState();
 }
 
 class _PazienteTileState extends State<PazienteTile> {
@@ -52,7 +52,7 @@ class _PazienteTileState extends State<PazienteTile> {
               child: ListView(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(right: 15),
+                    padding: const EdgeInsets.only(right: 15),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[

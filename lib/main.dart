@@ -67,16 +67,17 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: SplashScreen(),
+        home: const SplashScreen(),
         routes: {
-          AuthScreen.routeName: (ctx) => AuthScreen(),
+          AuthScreen.routeName: (ctx) => const AuthScreen(),
           PuntiScreen.routeName: (ctx) => const PuntiScreen(),
           CercaPazienteScreen.routeName: (ctx) => const CercaPazienteScreen(),
           GestionePazienteScreen.routeName: (ctx) =>
               const GestionePazienteScreen(),
-          EditPazienteScreen.routeName: (ctx) => EditPazienteScreen(),
-          DatabaseScreen.routeName: (ctx) => DatabaseScreen(),
-          GestionePasswordScreen.routeName: (ctx) => GestionePasswordScreen(),
+          EditPazienteScreen.routeName: (ctx) => const EditPazienteScreen(),
+          DatabaseScreen.routeName: (ctx) => const DatabaseScreen(),
+          GestionePasswordScreen.routeName: (ctx) =>
+              const GestionePasswordScreen(),
         },
       ),
     );

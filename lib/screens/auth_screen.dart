@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class AuthScreen extends StatefulWidget {
+  const AuthScreen({super.key});
+
   static const routeName = '/auth';
 
   @override
@@ -49,8 +51,8 @@ class _AuthScreenState extends State<AuthScreen> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color.fromRGBO(215, 117, 255, 1).withOpacity(0.5),
-                  Color.fromRGBO(255, 188, 117, 1).withOpacity(0.9),
+                  const Color.fromRGBO(215, 117, 255, 1).withOpacity(0.5),
+                  const Color.fromRGBO(255, 188, 117, 1).withOpacity(0.9),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -59,7 +61,7 @@ class _AuthScreenState extends State<AuthScreen> {
             ),
           ),
           SingleChildScrollView(
-            child: Container(
+            child: SizedBox(
               height: deviceSize.height,
               width: deviceSize.width,
               child: Column(
@@ -132,11 +134,6 @@ class _AuthScreenState extends State<AuthScreen> {
       ),
     );
   }
-
-  Future<String> Versione() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    return packageInfo.version;
-  }
 }
 
 class AuthCard extends StatefulWidget {
@@ -145,7 +142,7 @@ class AuthCard extends StatefulWidget {
   });
 
   @override
-  _AuthCardState createState() => _AuthCardState();
+  State<AuthCard> createState() => _AuthCardState();
 }
 
 class _AuthCardState extends State<AuthCard> {

@@ -20,7 +20,9 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> onStart() async {
     await Provider.of<Password>(context, listen: false).init();
     await Future.delayed(const Duration(milliseconds: 1000));
-    await Navigator.pushReplacementNamed(context, AuthScreen.routeName);
+    if (mounted) {
+      await Navigator.pushReplacementNamed(context, AuthScreen.routeName);
+    }
   }
 
   @override

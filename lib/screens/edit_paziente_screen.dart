@@ -8,12 +8,12 @@ import '../providers/paziente_provider.dart';
 
 class EditPazienteScreen extends StatefulWidget {
   static const routeName = '/edit-paziente';
-  Paziente? paz;
+  final Paziente? paz;
 
-  EditPazienteScreen([Paziente? this.paz]);
+  const EditPazienteScreen({super.key, this.paz});
 
   @override
-  _EditPazienteScreenState createState() => _EditPazienteScreenState();
+  State<EditPazienteScreen> createState() => _EditPazienteScreenState();
 }
 
 class _EditPazienteScreenState extends State<EditPazienteScreen> {
@@ -68,13 +68,13 @@ class _EditPazienteScreenState extends State<EditPazienteScreen> {
       if (p != null) {
         _editedPaz = p;
         _initValues = {
-          'cognome': _editedPaz!.cognome,
-          'nome': _editedPaz!.nome,
-          'telefono': _editedPaz!.telefono,
-          'indirizzo': _editedPaz!.indirizzo,
-          'citta': _editedPaz!.citta,
-          'email': _editedPaz!.email,
-          'note': _editedPaz!.note,
+          'cognome': _editedPaz.cognome,
+          'nome': _editedPaz.nome,
+          'telefono': _editedPaz.telefono,
+          'indirizzo': _editedPaz.indirizzo,
+          'citta': _editedPaz.citta,
+          'email': _editedPaz.email,
+          'note': _editedPaz.note,
         };
       } else {
         _editedPaz = Paziente(
@@ -119,11 +119,11 @@ class _EditPazienteScreenState extends State<EditPazienteScreen> {
     setState(() {
       _isLoading = true;
     });
-    if (_editedPaz!.id != 0) {
-      Provider.of<Pazienti>(context, listen: false).updatePaziente(_editedPaz!);
+    if ((_editedPaz.id) != 0) {
+      Provider.of<Pazienti>(context, listen: false).updatePaziente(_editedPaz);
     } else {
       try {
-        Provider.of<Pazienti>(context, listen: false).addPaziente(_editedPaz!);
+        Provider.of<Pazienti>(context, listen: false).addPaziente(_editedPaz);
       } catch (error) {
         //   !!!!!!! ATTENZIONE !!!!!!!!!
         // con return showDialog<void>(

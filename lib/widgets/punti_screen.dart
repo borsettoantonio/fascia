@@ -1,7 +1,7 @@
 import 'package:fascia/providers/paziente_provider.dart';
 import 'package:fascia/screens/edit_paziente_screen.dart';
 import 'package:flutter/material.dart';
-import '../screens/sectorPainter.dart';
+import '../screens/sector_painter.dart';
 import 'package:touchable/touchable.dart';
 import 'package:provider/provider.dart';
 import '../providers/point_provider.dart';
@@ -83,7 +83,7 @@ class _PuntiScreenState extends State<PuntiScreen> {
               ),
             ),
           ),
-          EditPazienteScreen(paz),
+          EditPazienteScreen(paz: paz),
         ],
       ),
     );

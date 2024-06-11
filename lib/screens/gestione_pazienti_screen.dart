@@ -149,7 +149,7 @@ class GestionePazienteScreenState extends State<GestionePazienteScreen> {
           itemBuilder: (BuildContext context, int position) =>
               CardPaziente(lista: listaPazienti, position: position)), */
 
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
     );
   }
 }

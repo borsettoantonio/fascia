@@ -6,7 +6,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class ExportToDownload extends StatefulWidget {
-  ExportToDownload({super.key});
+  const ExportToDownload({super.key});
 
   @override
   State<ExportToDownload> createState() => _ExportToDownloadState();
@@ -61,8 +61,8 @@ class _ExportToDownloadState extends State<ExportToDownload> {
       } else {
         message = 'Errore nella copia';
       }
-      sending = false;        
-      });
+      sending = false;
+    });
   }
 
   Future<File> getDB() async {
@@ -72,7 +72,7 @@ class _ExportToDownloadState extends State<ExportToDownload> {
   }
 
   Future<bool> sendDatabase() async {
-    print((await getDownloadsDirectory())!.absolute);
+    //print((await getDownloadsDirectory())!.absolute);
     try {
       if (Platform.isAndroid) {
         PermissionStatus status1 = await Permission.storage.request();
@@ -82,9 +82,9 @@ class _ExportToDownloadState extends State<ExportToDownload> {
         // status1 isGranted for Android < 11
         if (status1.isGranted || status2.isGranted) {
           File sourceFile = await getDB();
-          File DestFile = await File('storage/emulated/0/Download/pazienti.db');
-          if (await DestFile.exists()) {
-            await DestFile.delete();
+          File destFile = File('storage/emulated/0/Download/pazienti.db');
+          if (await destFile.exists()) {
+            await destFile.delete();
           }
           await sourceFile.copy('/storage/emulated/0/Download/pazienti.db');
           return true;
@@ -95,9 +95,9 @@ class _ExportToDownloadState extends State<ExportToDownload> {
         File sourceFile = await getDB();
         String nomeDest =
             '${(await getDownloadsDirectory())!.path}\\pazienti.db';
-        File DestFile = await File(nomeDest);
-        if (await DestFile.exists()) {
-          await DestFile.delete();
+        File destFile = File(nomeDest);
+        if (await destFile.exists()) {
+          await destFile.delete();
         }
         await sourceFile.copy(nomeDest);
         return true;

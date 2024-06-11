@@ -63,7 +63,7 @@ class CercaPazienteScreenState extends State<CercaPazienteScreen> {
           itemCount: listaPazienti.length,
           itemBuilder: (BuildContext context, int position) =>
               CardPaziente(lista: listaPazienti, position: position)),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
     );
   }
 }

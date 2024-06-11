@@ -1,7 +1,6 @@
 import 'package:fascia/widgets/app_drawer.dart';
 import 'package:fascia/widgets/import_from_download.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../widgets/export_to_download.dart';
 
 enum FilterOptions {
@@ -10,9 +9,13 @@ enum FilterOptions {
 }
 
 class DatabaseScreen extends StatefulWidget {
+  const DatabaseScreen({
+    super.key,
+  });
+
   static const routeName = '/database';
   @override
-  _DatabaseScreenState createState() => _DatabaseScreenState();
+  State<DatabaseScreen> createState() => _DatabaseScreenState();
 }
 
 class _DatabaseScreenState extends State<DatabaseScreen> {
@@ -22,7 +25,7 @@ class _DatabaseScreenState extends State<DatabaseScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('Import/Export Database'),
         actions: <Widget>[
           PopupMenuButton(
@@ -51,14 +54,12 @@ class _DatabaseScreenState extends State<DatabaseScreen> {
           ),
         ],
       ),
-      drawer: AppDrawer(),
-      body: switch(scelta)
-      {
-         FilterOptions.download => ExportToDownload(),
-         FilterOptions.email => ImportToDownload(),
-         null => null,
+      drawer: const AppDrawer(),
+      body: switch (scelta) {
+        FilterOptions.download => const ExportToDownload(),
+        FilterOptions.email => const ImportFromDownload(),
+        null => null,
       },
-     
     );
   }
 }

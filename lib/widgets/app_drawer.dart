@@ -5,13 +5,15 @@ import '../screens/cerca_paziente_screen.dart';
 import '../screens/gestione_pazienti_screen.dart';
 
 class AppDrawer extends StatelessWidget {
+  const AppDrawer({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: Column(
         children: <Widget>[
           AppBar(
-            title: Text('Fascia'),
+            title: const Text('Fascia'),
             automaticallyImplyLeading: false,
           ),
           const Divider(),
