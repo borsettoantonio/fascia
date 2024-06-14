@@ -8,7 +8,7 @@ class Paziente with ChangeNotifier {
   String? indirizzo;
   String? citta;
   String? email;
-  Uint8List punti; // 3 bytes (con massimo 12 punti) per 32 segmanti
+  Uint8List punti; // 4 bytes  per 32 segmanti
   String? note;
 
   Paziente({

@@ -71,7 +71,6 @@ class _PuntiScreenState extends State<PuntiScreen> {
                                       (detail as TapDownDetails).localPosition,
                                       constraints.maxWidth / 14,
                                     ));
-                                    //print(x);
                                   }),
                               size: Size(
                                   constraints.maxWidth, constraints.maxHeight),
@@ -124,6 +123,7 @@ class _PuntiScreenState extends State<PuntiScreen> {
     int seg,
     int punto,
     int sottoPunto,
+    bool interno,
   ) {
     return PopupMenuItem<List<int>>(
       padding: const EdgeInsets.only(right: 10.0, left: 10.0),
@@ -132,6 +132,7 @@ class _PuntiScreenState extends State<PuntiScreen> {
         seg,
         punto,
         sottoPunto,
+        interno ? 1 : -1,
       ],
       child: Container(
         width: double.infinity,
@@ -170,27 +171,45 @@ class _PuntiScreenState extends State<PuntiScreen> {
     bool puntoAttivo;
     List<PopupMenuItem<List<int>>> listaElementi = [];
 
+    /* 
     for (int i = 0; i < 6; i++) {
       colorePunto = paziente.sectorColors[i];
       puntoAttivo = paziente.segmenti[seg].attiviExt[i];
       nomePunto = paziente.nomiPunti[i];
       listaElementi.add(creaElemento(
-          context, nomePunto, colorePunto, puntoAttivo, seg, i, -1));
+      context, nomePunto, colorePunto, puntoAttivo, seg, i, -1));
+    }
+    */
+
+    for (int i = 0; i < 6; i++) {
+      var subPointExt = paziente.getSubPointExt()[seg ~/ 2];
+      var nPunto = paziente.nomiPunti[i];
+      colorePunto = paziente.sectorColors[i];
+      for (int m = 1; m <= subPointExt[i]; m++) {
+        puntoAttivo = paziente.segmenti[seg].attiviExt[i][m - 1];
+        if (subPointExt[i] > 1) {
+          nomePunto = '$nPunto $m';
+        } else {
+          nomePunto = nPunto;
+        }
+        listaElementi.add(creaElemento(context, nomePunto, colorePunto,
+            puntoAttivo, seg, i, m - 1, false)); // false per esterno
+      }
     }
 
     for (int i = 6; i < 10; i++) {
-      var subPoint = paziente.getSubPoint()[seg ~/ 2];
+      var subPoint = paziente.getSubPointInt()[seg ~/ 2];
       var nPunto = paziente.nomiPunti[i];
+      colorePunto = paziente.sectorColors[i];
       for (int m = 1; m <= subPoint[i - 6]; m++) {
-        colorePunto = paziente.sectorColors[i];
         puntoAttivo = paziente.segmenti[seg].attiviInt[i - 6][m - 1];
         if (subPoint[i - 6] > 1) {
           nomePunto = '$nPunto $m';
         } else {
           nomePunto = nPunto;
         }
-        listaElementi.add(creaElemento(
-            context, nomePunto, colorePunto, puntoAttivo, seg, i, m - 1));
+        listaElementi.add(creaElemento(context, nomePunto, colorePunto,
+            puntoAttivo, seg, i, m - 1, true)); // true per interno
       }
     }
     return listaElementi;

@@ -1,7 +1,9 @@
 # fascia
 
-10.06.2024
-Ho tolto tutti i warning.
+14.06.2024
+Ho cambiato la struttura di memorizazione dei punti,
+per triplicare il punto ME nei segmenti TH, LU, PV.
+La versione diventa: version: 2.0.1+1 
 
 Comando di compilazione:
 flutter build apk --split-per-abi --no-tree-shake-icons

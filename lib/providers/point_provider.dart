@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import './paziente_provider.dart';
 import './pazienti_provider.dart';
@@ -24,7 +25,26 @@ class PazienteCorrente with ChangeNotifier {
     'PE',
   ];
 
-  static final List<List<int>> _subPoint = [
+  static final List<List<int>> _subPointExt = [
+    [1, 1, 1, 1, 1, 1], // AN, LA, ER, RE, ME, IR  per segmento 'CP1',
+    [1, 1, 1, 1, 1, 1], // ...                          per segmento 'CP2',
+    [1, 1, 1, 1, 1, 1], // CP3
+    [1, 1, 1, 1, 1, 1], // CL
+    [1, 1, 1, 1, 3, 1], // TH
+    [1, 1, 1, 1, 3, 1], // LU
+    [1, 1, 1, 1, 3, 1], // PV
+    [1, 1, 1, 1, 1, 1], // SC
+    [1, 1, 1, 1, 1, 1], // HU
+    [1, 1, 1, 1, 1, 1], // CU
+    [1, 1, 1, 1, 1, 1], // CA
+    [1, 1, 1, 1, 1, 1], // DI
+    [1, 1, 1, 1, 1, 1], // CX
+    [1, 1, 1, 1, 1, 1], // GE
+    [1, 1, 1, 1, 1, 1], // TA
+    [1, 1, 1, 1, 1, 1], // PE
+  ];
+
+  static final List<List<int>> _subPointInt = [
     [1, 1, 1, 1], // RE LA , RE ME, AN ME, AN LA  per segmento 'CP1',
     [1, 1, 1, 1], // ...                          per segmento 'CP2',
     [1, 1, 1, 1], // CP3
@@ -98,8 +118,16 @@ class PazienteCorrente with ChangeNotifier {
       int mask = 1;
       for (int j = 0; j < 6; j++) {
         //elaboro i 6 punti esterni
-        segmenti[s].attiviExt[j] = (paz.punti[k] & mask) == 0 ? false : true;
-        mask <<= 1;
+        for (int e = 0; e < 3; e++) {
+          //elaboro i max 3 sottopunti punti esterni
+          segmenti[s].attiviExt[j][e] =
+              (paz.punti[k] & mask) == 0 ? false : true;
+          mask <<= 1;
+          if (mask == 256) {
+            mask = 1;
+            k++;
+          }
+        }
       }
       for (int j = 0; j < 4; j++) {
         //elaboro i 4 punti interni
@@ -122,15 +150,19 @@ class PazienteCorrente with ChangeNotifier {
     return [..._segName];
   }
 
-  List<List<int>> getSubPoint() {
-    return [..._subPoint];
+  List<List<int>> getSubPointExt() {
+    return [..._subPointExt];
   }
 
-  void toggleAttiviExt(int seg, int index) {
+  List<List<int>> getSubPointInt() {
+    return [..._subPointInt];
+  }
+
+  /* void toggleAttiviExt(int seg, int index) {
     segmenti[seg].attiviExt[index] =
         segmenti[seg].attiviExt[index] ? false : true;
     notifyListeners();
-  }
+  } */
 
   int getSegment(Offset localPosition, double diametro) {
     //print('-------');
@@ -154,20 +186,20 @@ class PazienteCorrente with ChangeNotifier {
 
   void setPunto(List<int>? dati) {
     if (dati == null) return;
-    if (dati[2] == -1) // punti della corona esterna
+    if (dati[3] == -1) // punti della corona esterna
     {
-      segmenti[dati[0]].attiviExt[dati[1]] =
-          !segmenti[dati[0]].attiviExt[dati[1]];
+      segmenti[dati[0]].attiviExt[dati[1]][dati[2]] =
+          !segmenti[dati[0]].attiviExt[dati[1]][dati[2]];
     } else //punti della corona interna
     {
-      segmenti[dati[0]].attiviInt[dati[1] - 6][dati[2]] =
+      segmenti[dati[0]].attiviInt[dati[1]][dati[2]] =
           !segmenti[dati[0]].attiviInt[dati[1] - 6][dati[2]];
     }
     updatePunti();
     notifyListeners();
   }
 
-  void updatePunti() {
+  /* void updatePunti() {
     List<int> listaPunti = List<int>.empty(growable: true);
 
     for (int s = 0; s < 32; s++) {
@@ -196,9 +228,7 @@ class PazienteCorrente with ChangeNotifier {
       }
       secondo = segmenti[s].attiviInt[3][0] ? secondo + mask : secondo;
       listaPunti.add(secondo);
-      /* if (s == 31) {
-        s = s + 0;
-      } */
+      
       int terzo = 0;
       mask = 1;
       for (int i = 1; i < 3; i++) {
@@ -210,11 +240,55 @@ class PazienteCorrente with ChangeNotifier {
 
     Uint8List punti = Uint8List.fromList(listaPunti);
     pazienti.updatePuntiPazienteCorrente(idCorrente, punti);
+  } */
+
+  void updatePunti() {
+    List<int> listaPunti = List<int>.empty(growable: true);
+
+    for (int s = 0; s < 32; s++) {
+      int dato = 0;
+      int mask = 1;
+      // punti esterni
+      for (int i = 0; i < 6; i++) {
+        for (int e = 0; e < 3; e++) {
+          dato = segmenti[s].attiviExt[i][e] ? dato + mask : dato;
+          mask <<= 1;
+          if (mask == 256) {
+            mask = 1;
+            listaPunti.add(dato);
+            dato = 0;
+          }
+        }
+      }
+      // punti interni
+      for (int i = 0; i < 4; i++) {
+        for (int e = 0; e < 3; e++) {
+          dato = segmenti[s].attiviInt[i][e] ? dato + mask : dato;
+          mask <<= 1;
+          if (mask == 256) {
+            mask = 1;
+            listaPunti.add(dato);
+            dato = 0;
+          }
+        }
+      }
+      listaPunti.add(dato);
+    }
+
+    Uint8List punti = Uint8List.fromList(listaPunti);
+    pazienti.updatePuntiPazienteCorrente(idCorrente, punti);
   }
 }
 
 class Segmento {
-  List<bool> attiviExt = [false, false, false, false, false, false];
+  List<List<bool>> attiviExt = [
+    [false, false, false],
+    [false, false, false],
+    [false, false, false],
+    [false, false, false],
+    [false, false, false],
+    [false, false, false],
+  ];
   List<List<bool>> attiviInt = [
     [false, false, false],
     [false, false, false],

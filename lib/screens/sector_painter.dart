@@ -9,19 +9,21 @@ class SectorsPainter extends CustomPainter {
   final Function onTap;
   late List<String> segName;
   late PazienteCorrente paziente;
-  late List<List<int>> subPoint;
+  late List<List<int>> subPointExt;
+  late List<List<int>> subPointInt;
   late List<Color> sectorColors;
 
   SectorsPainter({required this.context, required this.onTap}) {
     paziente = Provider.of<PazienteCorrente>(context, listen: true);
     segName = paziente.getSegmentName();
-    subPoint = paziente.getSubPoint();
+    subPointExt = paziente.getSubPointExt();
+    subPointInt = paziente.getSubPointInt();
     sectorColors = paziente.sectorColors;
   }
 
   @override
   void paint(Canvas canvas, Size size) {
-    final double mainCircleDiameter = min(size.width / 7, size.height/12);
+    final double mainCircleDiameter = min(size.width / 7, size.height / 12);
     double xPos = size.width / 2 - mainCircleDiameter / 2;
     double yPos = 20;
     const double mezzoSpazio = 3;
@@ -41,7 +43,8 @@ class SectorsPainter extends CustomPainter {
         xPos - dx,
         yPos,
         segName[s],
-        subPoint[s],
+        subPointExt[s],
+        subPointInt[s],
         paziente.segmenti[j].attiviExt,
         paziente.segmenti[j].attiviInt,
         paziente.segmenti[j++],
@@ -55,7 +58,8 @@ class SectorsPainter extends CustomPainter {
         xPos + dx,
         yPos,
         segName[s],
-        subPoint[s++],
+        subPointExt[s],
+        subPointInt[s++],
         paziente.segmenti[j].attiviExt,
         paziente.segmenti[j].attiviInt,
         paziente.segmenti[j++],
@@ -77,7 +81,8 @@ class SectorsPainter extends CustomPainter {
         xxPos - dx - dxx,
         yPos,
         segName[s],
-        subPoint[s],
+        subPointExt[s],
+        subPointInt[s],
         paziente.segmenti[j].attiviExt,
         paziente.segmenti[j].attiviInt,
         paziente.segmenti[j++],
@@ -91,7 +96,8 @@ class SectorsPainter extends CustomPainter {
         xxPos + dx + dxx,
         yPos,
         segName[s],
-        subPoint[s++],
+        subPointExt[s],
+        subPointInt[s++],
         paziente.segmenti[j].attiviExt,
         paziente.segmenti[j].attiviInt,
         paziente.segmenti[j++],
@@ -120,7 +126,8 @@ class SectorsPainter extends CustomPainter {
         xxPos - dx - dxx + 8,
         yPos,
         segName[s],
-        subPoint[s],
+        subPointExt[s],
+        subPointInt[s],
         paziente.segmenti[j].attiviExt,
         paziente.segmenti[j].attiviInt,
         paziente.segmenti[j++],
@@ -134,7 +141,8 @@ class SectorsPainter extends CustomPainter {
         xxPos + dx + dxx - 8,
         yPos,
         segName[s],
-        subPoint[s++],
+        subPointExt[s],
+        subPointInt[s++],
         paziente.segmenti[j].attiviExt,
         paziente.segmenti[j].attiviInt,
         paziente.segmenti[j++],
@@ -158,8 +166,9 @@ class SectorsPainter extends CustomPainter {
     double xPos,
     double yPos,
     String segName,
-    List<int> subPoint,
-    List<bool> attiviExt,
+    List<int> subPointExt,
+    List<int> subPointInt,
+    List<List<bool>> attiviExt,
     List<List<bool>> attiviInt,
     Segmento seg,
     List<Color> sectorColors,
@@ -179,7 +188,7 @@ class SectorsPainter extends CustomPainter {
     double sweepAngle = pi / 3 - separatore;
     double startAngle = -pi / 2;
 
-    // corona esterna
+    /* // corona esterna
     for (int i = 0; i < 6; i++) {
       myCanvas.drawArc(
         arcsRect,
@@ -192,6 +201,24 @@ class SectorsPainter extends CustomPainter {
         },
       );
       startAngle = startAngle + sweepAngle + separatore;
+    } */
+
+    // corona esterna
+    for (int i = 0; i < 6; i++) {
+      sweepAngle = (pi / 3 - separatore * subPointExt[i]) / subPointExt[i];
+      for (int m = 1; m <= subPointExt[i]; m++) {
+        myCanvas.drawArc(
+          arcsRect,
+          startAngle,
+          sweepAngle,
+          useCenter,
+          paint..color = attiviExt[i][m - 1] ? sectorColors[i] : Colors.white,
+          onTapUp: (tapDetail) {
+            onTap(tapDetail);
+          },
+        );
+        startAngle = startAngle + sweepAngle + separatore;
+      }
     }
 
     // corona interna
@@ -203,12 +230,13 @@ class SectorsPainter extends CustomPainter {
         mainCircleDiameter2,
         mainCircleDiameter2);
     for (int i = 6; i < 10; i++) {
-      sweepAngle = (pi / 2 - separatore * subPoint[i - 6]) / subPoint[i - 6];
-      for (int m = 1; m <= subPoint[i - 6]; m++) {
+      sweepAngle =
+          (pi / 2 - separatore * subPointInt[i - 6]) / subPointInt[i - 6];
+      for (int m = 1; m <= subPointInt[i - 6]; m++) {
         myCanvas.drawArc(
           arcsRect2,
           startAngle,
-          sweepAngle, // 0,0349066
+          sweepAngle,
           useCenter,
           paint
             ..color = attiviInt[i - 6][m - 1] ? sectorColors[i] : Colors.white,
