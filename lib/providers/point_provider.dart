@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import './paziente_provider.dart';
@@ -192,7 +190,7 @@ class PazienteCorrente with ChangeNotifier {
           !segmenti[dati[0]].attiviExt[dati[1]][dati[2]];
     } else //punti della corona interna
     {
-      segmenti[dati[0]].attiviInt[dati[1]][dati[2]] =
+      segmenti[dati[0]].attiviInt[dati[1] - 6][dati[2]] =
           !segmenti[dati[0]].attiviInt[dati[1] - 6][dati[2]];
     }
     updatePunti();
